@@ -1,0 +1,80 @@
+from cffi.cparser import lock
+
+
+# 查询角色列表
+def database_rolelist(connection, cursor):
+    lock.acquire()
+    rolelist = []
+    roleinfo = {'rol_id': -1, 'roleName': 'NULL', 'description': 'NULL',
+                '起草合同': 0, '会签合同': 0, '定稿合同': 0, '审批合同': 0, '签订合同': 0,
+                '查询合同信息': 0, '查询合同流程': 0, '分配会签': 0, '分配审批': 0, '分配签订': 0,
+                '新增角色': 0, '编辑角色': 0, '查询角色': 0, '删除角色': 0, '新增用户': 0,
+                '编辑用户': 0, '查询用户': 0, '删除用户': 0, '查询日志': 0, '删除日志': 0,
+                '管理合同信息': 0, '新增客户': 0, '编辑客户': 0, '查询客户': 0, '删除客户': 0}
+    # 执行数据查询
+    sql = "select role.id AS rol_id ,role.name AS roleName, functions.name AS funcName, role.description from functions,role," \
+          "role_functions where functions.id=fun_id and role.id=rol_id "
+    cursor.execute(sql)
+    # 获取数据库单条数据
+    result = cursor.fetchall()
+    connection.commit()
+    rolelist.append(roleinfo)
+    flag = 0
+    for a in result:
+        # 计算已有的角色数量
+        count = len(rolelist)
+        # 遍历已有角色
+        for b in rolelist:
+            # 第一次插入
+            if flag == 0:
+                b['rol_id'] = a['rol_id']
+                b['roleName'] = a['roleName']
+                b['description'] = a['description']
+                b[a['funcName']] = 1
+                flag = 1
+                break
+            if a['rol_id'] == b['rol_id']:
+                b['roleName'] = a['roleName']
+                b['description'] = a['description']
+                b[a['funcName']] = 1
+            else:
+                count = count - 1
+                # 当前列表没有该id
+        if count == 0:
+            temp_roleinfo = {'rol_id': a['rol_id'], 'roleName': b['roleName'], 'description': 'NULL', '起草合同': 0,
+                             '会签合同': 0, '定稿合同': 0, '审批合同': 0, '签订合同': 0, '查询合同信息': 0, '查询合同流程': 0, '分配会签': 0, '分配审批': 0,
+                             '分配签订': 0, '新增角色': 0, '编辑角色': 0, '查询角色': 0, '删除角色': 0, '新增用户': 0, '编辑用户': 0, '查询用户': 0,
+                             '删除用户': 0, '查询日志': 0, '删除日志': 0, '管理合同信息': 0, '新增客户': 0, '编辑客户': 0, '查询客户': 0, '删除客户': 0,
+                             a['funcName']: 1}
+            rolelist.append(temp_roleinfo)
+    lock.release()
+    return rolelist
+
+
+# 更改角色数据
+def database_editrole(connection, cursor, roleName, functionName):
+    lock.acquire()
+    # 删除角色数据
+    sql = "DELETE FROM role_functions WHERE role_functions.rol_id=(SELECT id FROM role WHERE name ='" + roleName + "')"
+    cursor.execute(sql)
+    # 插入角色数据
+    sql = "INSERT INTO role_functions (rol_id,fun_id)VALUE((SELECT id FROM role WHERE name ='" + roleName + "'),(SELECT id FROM function WHERE name ='" + functionName + "'))"
+    cursor.execute(sql)
+    # 提交数据
+    connection.commit()
+    lock.release()
+    return True
+
+
+# 删除角色
+def database_deleterole(connection, cursor, roleName):
+    lock.acquire()
+    # 删除角色及相关内容
+    sql = "DELETE FROM role_functions WHERE role_functions.rol_id=(SELECT id FROM role WHERE name ='" + roleName + "')"
+    cursor.execute(sql)
+    sql = "DELETE FROM role WHERE name ='" + roleName + "'"
+    cursor.execute(sql)
+    # 提交数据
+    connection.commit()
+    lock.release()
+    return True

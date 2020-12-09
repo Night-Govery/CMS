@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>你好，打工人</title>
+	<link rel="stylesheet" href="../static/css/loginindex.css">
+</head>
+
+<body>
+	<div class="lowin">
+		<div class="lowin-brand">
+			<img src="../static/images/lock.jpg" alt="logo">
+		</div>
+		<div class="lowin-wrapper">
+			<div class="lowin-box lowin-login">
+				<div class="lowin-box-inner">
+					<form method="post">
+						<p>欢迎来到合同管理系统</p>
+						<div class="lowin-group">
+							<label>用户名</label>
+							<input type="text" id="iuser" name="iuser" autocomplete="name" class="lowin-input">
+							<span class="hint" id="hint1"></span>
+						</div>
+						<div class="lowin-group password-group">
+							<label>密码 <a href="#" class="forgot-link"></a></label>
+							<input type="password" id="psw" name="psw" autocomplete="current-password" class="lowin-input">
+							<span class="hint" id="hint2"></span>
+						</div>
+						<button type="submit" class="lowin-btn login-btn" id="login" onclick="myFunction()">
+							登录
+						</button>
+                        {% for foo in get_flashed_messages() %}
+                            {{ foo }}
+                        {% endfor %}
+						<div class="text-foot">
+							还没有账号? <a href="" class="register-link">注册</a>
+						</div>
+					</form>
+				</div>
+			</div>
+
+			<div class="lowin-box lowin-register">
+				<div class="lowin-box-inner">
+					<form method="post">
+						<p>欢迎注册合同管理系统</p>
+						<div class="lowin-group">
+							<label>用户名</label>
+							<input type="text" id="ruser" name="ruser" autocomplete="name" class="lowin-input">
+							<span class="hint" id="hint3"></span>
+						</div>
+						<div class="lowin-group">
+							<label>密码</label>
+							<input type="password" id="psw1" name="psw1" autocomplete="current-password" class="lowin-input">
+							<span class="hint" id="hint4"></span>
+						</div>
+						<div class="lowin-group">
+							<label>确认密码</label>
+							<input type="password" id="psw2" name="psw2" autocomplete="current-password" class="lowin-input">
+							<span class="hint" id="hint5"></span>
+						</div>
+						<button type="submit" class="lowin-btn" id="register">
+							注册
+						</button>
+
+						<div class="text-foot">
+							已经有账号? <a href="" class="login-link">登录</a>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<footer class="lowin-footer">
+
+		</footer>
+	</div>
+
+    <script type="text/javascript">
+		var message = {{ message }};
+		switch (message){
+			case 1:
+				alert("登陆失败,用户名或密码错误！");
+				break;
+			case 2:
+				alert("注册失败，用户名已存在！");
+				break;
+			case 3:
+				alert("注册成功！");
+				break;
+		}
+	</script>
+
+	<script type="text/javascript">
+		var flag1 = 0,flag2 = 0;
+		var flag3 = 0,flag4 = 0,flag5 = 0;
+		function myFunction(){
+			// alert("flag1="+flag1+"flag2="+flag2);
+			if(flag1===0||flag2===0){
+				event.preventDefault();
+				alert("信息还有错误呢亲");
+			}
+		}
+		window.onload=function(){
+			var register=document.getElementById("register");
+			register.onclick=function(event){
+				// alert("flag3="+flag3+"flag4="+flag4+"flag5="+flag5);
+				if(flag3===0||flag4===0||flag5===0){
+					event.preventDefault();
+					alert("信息还有错误呢亲");
+				}
+			}
+		}
+	</script>
+
+	<script type="text/javascript">
+		document.getElementById("iuser").addEventListener("input",function (){
+			var user = document.getElementById("iuser").value;
+			var reg =/^[^\s]*$/;
+			if(!reg.test(user)){
+				document.getElementById("hint1").innerHTML="不能包含空格、单引号！";
+				flag1=0;
+			}
+			else if(user.indexOf("\'")>0){
+				document.getElementById("hint1").innerHTML="不能包含空格、单引号！";
+				flag1=0;
+			}
+			else if(user.length<4||user.length>20){
+				document.getElementById("hint1").innerHTML="用户名需要4-20位！";
+				flag1=0;
+			}
+			else {
+				document.getElementById("hint1").innerHTML="";
+				flag1=1;
+			}
+		});
+	</script>
+
+	<script type="text/javascript">
+		document.getElementById("psw").addEventListener("input",function (){
+			var psw1 = document.getElementById("psw").value;
+			var reg =/^[^\s]*$/;
+			if(!reg.test(psw1)){
+				document.getElementById("hint2").innerHTML="不能包含空格、引号！";
+				flag2=0;
+			}
+			else if(psw1.indexOf("\'")>0){
+				document.getElementById("hint2").innerHTML="不能包含空格、引号！";
+				flag2=0;
+			}
+			else if(psw1.length<6||psw1.length>16){
+				document.getElementById("hint2").innerHTML="密码需要6-16位！";
+				flag2=0;
+			}
+			else {
+				document.getElementById("hint2").innerHTML="";
+				flag2=1;
+			}
+		});
+	</script>
+
+	<script type="text/javascript">
+		document.getElementById("ruser").addEventListener("input",function (){
+			var user = document.getElementById("ruser").value;
+			var reg =/^[^\s]*$/;
+			if(!reg.test(user)){
+				document.getElementById("hint3").innerHTML="不能包含空格、单引号！";
+				flag3=0;
+			}
+			else if(user.indexOf("\'")>0){
+				document.getElementById("hint3").innerHTML="不能包含空格、单引号！";
+				flag3=0;
+			}
+			else if(user.length<4||user.length>20){
+				document.getElementById("hint3").innerHTML="用户名需要4-20位！";
+				flag3=0;
+			}
+			else {
+				document.getElementById("hint3").innerHTML="";
+				flag3=1;
+			}
+		});
+	</script>
+
+	<script type="text/javascript">
+		document.getElementById("psw1").addEventListener("input",function (){
+			var psw1 = document.getElementById("psw1").value;
+			var psw2 = document.getElementById("psw2").value;
+			var reg =/^[^\s]*$/;
+			if(!reg.test(psw1)){
+				document.getElementById("hint4").innerHTML="不能包含空格、引号！";
+				flag4=0;
+			}
+			else if(psw1.indexOf("\'")>0){
+				document.getElementById("hint4").innerHTML="不能包含空格、引号！";
+				flag4=0;
+			}
+			else if(psw1.length<6||psw1.length>16){
+				document.getElementById("hint4").innerHTML="密码需要6-16位！";
+				flag4=0;
+			}
+			else {
+				document.getElementById("hint4").innerHTML="";
+				flag4=1;
+			}
+			if(psw1!=psw2){
+				flag5=0;
+			}
+			else {
+				flag5=1;
+			}
+		});
+	</script>
+
+	<script type="text/javascript">
+		document.getElementById("psw2").addEventListener("input",function (){
+			var psw1 = document.getElementById("psw1").value;
+			var psw2 = document.getElementById("psw2").value;
+			if(psw1!=psw2){
+				document.getElementById("hint5").innerHTML="两次密码输入不一致！";
+				flag5=0;
+			}
+			else {
+				document.getElementById("hint5").innerHTML="";
+				flag5=1;
+			}
+		});
+	</script>
+
+	<script src="../static/js/index.js"></script>
+	<script>
+		Index.init({
+			login_url: '#login',
+			forgot_url: '#forgot'
+		});
+	</script>
+</body>
+</html>

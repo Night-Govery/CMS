@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>
+        文章添加
+    </title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+
+    <link rel="stylesheet" href="../static/css/font.css">
+    <link rel="stylesheet" href="../static/css/index.css">
+    <script src="../static/lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../static/js/mainindex.js"></script>
+    <link href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <!--必要样式-->
+    <link href="../static/css/component-chosen.css" rel="stylesheet">
+
+<body>
+
+<div class="layui-card">
+    <form class="layui-form layui-form-pane" method="post" id="add">
+        <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+            <ul class="layui-tab-title">
+                <li class="layui-this">定稿合同</li>
+            </ul>
+
+            <div class="layui-tab-content" >
+                <div class="layui-tab-item layui-show">
+                    <input type="hidden" name="id" value="{$art.id}">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">
+                            <span class='x-red'></span>合同名称
+                        </label>
+                        <div class="layui-input-block">
+                            <input type="text" name="name" autocomplete="off" value="{{ constractName }}
+                                   class="layui-input" readonly="true">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">
+                            <span class='x-red'></span>分配审批
+                        </label>
+                        <div style="margin-top: 20px;margin-left: 30px">
+                            <select id="shenpi" name="shenpi" class="form-control form-control-chosen" data-placeholder="请分配审批人..." multiple>
+                                <option></option>
+                                {% for user in user_list %}
+                                <option>{{ user['userName'] }}</option>
+                                {% endfor %}
+                            </select>
+
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <button class="layui-btn" type="submit" lay-filter="add" lay-submit="">
+                            提交
+                        </button>
+                    </div>
+                    <!--</form>-->
+                    <div style="height:100px;"></div>
+
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script type="text/javascript" src="../static/js/jquery-1.11.0.min.js"></script>
+<script type="text/javascript" src="../static/js/chosen.jquery.js"></script>
+<script type="text/javascript">
+    $('.form-control-chosen').chosen({
+        allow_single_deselect: true,
+        width: '100%'
+    });
+    $('.form-control-chosen-required').chosen({
+        allow_single_deselect: false,
+        width: '100%'
+    });
+    $('.form-control-chosen-search-threshold-100').chosen({
+        allow_single_deselect: true,
+        disable_search_threshold: 100,
+        width: '100%'
+    });
+    $('.form-control-chosen-optgroup').chosen({
+        width: '100%'
+    });
+
+    $(function() {
+        $('[title="clickable_optgroup"]').addClass('chosen-container-optgroup-clickable');
+    });
+    $(document).on('click', '[title="clickable_optgroup"] .group-result', function() {
+        var unselected = $(this).nextUntil('.group-result').not('.result-selected');
+        if(unselected.length) {
+            unselected.trigger('mouseup');
+        } else {
+            $(this).nextUntil('.group-result').each(function() {
+                $('a.search-choice-close[data-option-array-index="' + $(this).data('option-array-index') + '"]').trigger('click');
+            });
+        }
+    });
+</script>
+
+</body>
+</html>
