@@ -678,6 +678,22 @@ def logdelete():
         else:
             return redirect(url_for('nopermission'))
 
+# 查询客户
+@app.route('/customer-list', methods=['GET', 'POST'])
+def customerlist():
+    # 如果没有登录，就返回登录页
+    if "username" not in session:
+        return redirect(url_for('index'))
+    # 如果登录，就前往页面
+    else:
+        # 校验权限
+        # 有权限
+        if session.get('查询客户'):
+            return render_template('customer-list.htmlhtml')
+        # 无权限
+        else:
+            return redirect(url_for('nopermission'))
+
 
 # 启动服务器
 if __name__ == '__main__':
