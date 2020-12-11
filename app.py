@@ -152,7 +152,7 @@ def main():
     # 如果登录，就前往页面
     else:
         username = session.get('username')
-        return render_template('main.html', username=username)
+        return render_template('main.html', username=username, permission_list = session)
 
 
 # 起草合同(已完成)
