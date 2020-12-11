@@ -87,40 +87,24 @@
         </div>
     </form>
 </div>
-
 <script type="text/javascript">
-    //实例化编辑器
-    //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
-    UE.getEditor('content',{initialFrameWidth:600,initialFrameHeight:400,});
+    var message = {{message}};
+    switch (message){
+        case 0:
+            layer.msg('合同名重复', {icon: 0});
+            break;
+        case 1:
+             layer.msg('编辑成功', {icon: 1});
+            break;
+        case -1:
+            break;
+    }
 </script>
 <script>
     layui.use(['element','layer','form','upload'], function(){
         var  $ = layui.jquery;//jquery
-        var lement = layui.element;//面包导航
         var layer = layui.layer;//弹出层
         var form = layui.form;
-        var upload = layui.upload;
-
-
-
-        //图片上传接口
-        /*layui.upload({
-          url: './upload.json' //上传接口
-          ,success: function(res){ //上传成功后的回调
-              console.log(res);
-            $('#LAY_demo_upload').attr('src',res.url);
-          }
-        });*/
-        //指定允许上传的文件类型
-        upload.render({
-            elem: '#test3'
-            ,url: 'https://httpbin.org/post' //改成您自己的上传接口
-            ,accept: 'file' //普通文件
-            ,done: function(res){
-                layer.msg('上传成功');
-                console.log(res);
-            }
-        });
 
         //监听提交
         form.on('submit(add)', function(data){

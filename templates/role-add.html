@@ -197,5 +197,17 @@
         s.parentNode.insertBefore(hm, s);
       })();</script>
   </body>
-
+<script type="text/javascript">
+    var message = {{message}};
+    switch (message){
+        case 0:
+            layer.msg('添加失败', {icon: 0});
+            break;
+        case 1:
+             layer.msg('添加成功', {icon: 1});
+            break;
+        case -1:
+            break;
+    }
+</script>
 </html>
