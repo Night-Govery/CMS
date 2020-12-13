@@ -1,3 +1,5 @@
+import datetime
+
 from cffi.cparser import lock
 
 
@@ -27,3 +29,16 @@ def database_yiqianding(connection, cursor):
     connection.commit()
     lock.release()
     return result
+
+
+# 审批合同
+def database_huiqian(connection, cursor, name, userName, qianding):
+    lock.acquire()
+    timenum = datetime.datetime.strftime(datetime.datetime.now(), '%Y-%m-%d %H:%M:%S')
+    # 更新数据
+    sql = "UPDATE contract_process SET content='" + qianding + "',state='1',time='" + timenum + "' WHERE contract_process.con_id=(SELECT id FROM contract WHERE name='" + name + "') and contract_process.use_id=(SELECT id FROM user WHERE name='" + userName + "') and contract_process.type=2"
+    cursor.execute(sql)
+    # 提交数据
+    connection.commit()
+    lock.release()
+    return True
