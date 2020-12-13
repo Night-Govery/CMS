@@ -149,19 +149,22 @@
     })
 </script>
 <!--栏目缩略图上传-->
-   <script type="text/javascript">
-            var message = {{ message }};
-            switch (message){
-                case 0:
-                    layer.msg('操作失败', {icon: 0});
-                    break;
-                case 1:
-                     layer.msg('操作成功', {icon: 1});
-                    break;
-                case -1:
-                    break;
-            }
-        </script>
+<script type="text/javascript">
+    layui.use('layer', function(){
+      var layer = layui.layer;
+      var message = {{message}};
+        switch (message){
+        case 0:
+            layer.msg('密码修改失败', {icon: 0});
+            break;
+        case 1:
+             layer.msg('修改密码成功', {icon: 1});
+            break;
+        case -1:
+            break;
+    }
+    });
+</script>
 
 </body>
 </html>

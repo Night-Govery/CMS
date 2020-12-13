@@ -112,9 +112,12 @@
         </div>
     </form>
 </div>
+
 <script type="text/javascript">
-    var message = {{message}};
-    switch (message){
+    layui.use('layer', function(){
+      var layer = layui.layer;
+      var message = {{message}};
+        switch (message){
         case 0:
             layer.msg('客户名重复', {icon: 0});
             break;
@@ -123,7 +126,8 @@
             break;
         case -1:
             break;
-    }
+        }
+    });
 </script>
 <script type="text/javascript">
     //实例化编辑器

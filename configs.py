@@ -3,6 +3,6 @@ HOST = '127.0.0.1'
 PORT = 3306
 DATABASE = 'cms'
 USERNAME = 'root'
-PASSWORD = '123456'
+PASSWORD = 'hsgod129'
 
 ILLEGAL_STRING = " '"
