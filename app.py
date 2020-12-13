@@ -14,6 +14,7 @@ import mysql_login
 import mysql_member
 import mysql_qicao
 import mysql_role
+import mysql_shenpi
 import mysql_user
 
 app = Flask(__name__)
@@ -311,7 +312,9 @@ def daishenpi():
     else:
         # 有权限
         if session.get('审批合同'):
-            return render_template('daishenpi.html')
+            username = session.get('username')
+            daishenpi_list = mysql_shenpi.database_daishenpi(connection, cursor, username)
+            return render_template('daishenpi.html', daishenpi_list=daishenpi_list)
         # 无权限
         else:
             return redirect(url_for('nopermission'))
@@ -327,7 +330,9 @@ def yishenpi():
     else:
         # 有权限
         if session.get('审批合同'):
-            return render_template('yishenpi.html')
+            username = session.get('username')
+            yishenpi_list = mysql_shenpi.database_yishenpi(connection, cursor, username)
+            return render_template('yishenpi.html', yishenpi_list=yishenpi_list)
         # 无权限
         else:
             return redirect(url_for('nopermission'))
@@ -343,7 +348,14 @@ def shenpi(contractName):
     else:
         # 有权限
         if session.get('审批合同'):
-            return render_template('shenpi.html', contractName=contractName)
+            message = -1
+            if request.method == 'POST':
+                state = request.form.get('state')
+                info = request.form.get('info')
+                userName = session.get('username')
+                message = mysql_shenpi.database_shenpi(connection, cursor, contractName, userName, state, info)
+            #contract = mysql_contract.database_getcontractinfo(connection, cursor, contractName)
+            return render_template('shenpi.html', contractName=contractName, message=message)
         # 无权限
         else:
             return redirect(url_for('nopermission'))

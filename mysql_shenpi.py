@@ -32,7 +32,7 @@ def database_yishenpi(connection, cursor, userName):
 
 
 # 审批合同
-def database_huiqian(connection, cursor, name, userName, state, yijian):
+def database_shenpi(connection, cursor, name, userName, state, yijian):
     lock.acquire()
     timenum = datetime.datetime.strftime(datetime.datetime.now(), '%Y-%m-%d %H:%M:%S')
     # 更新数据
