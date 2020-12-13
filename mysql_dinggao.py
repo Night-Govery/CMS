@@ -36,8 +36,6 @@ def database_yidinggao(connection, cursor, userName):
 def database_dinggao(connection, cursor, name, userName, dinggao):
     lock.acquire()
     timenum = datetime.datetime.strftime(datetime.datetime.now(), '%Y-%m-%d %H:%M:%S')
-    print(timenum)
-
     # 执行数据查询,查询是否全部会签
     sql = "SELECT use_id FROM contract_process WHERE contract_process.con_id=(SELECT id FROM contract WHERE name='" + name + "') and contract_process.type=1 and contract_process.state=0"
     cursor.execute(sql)
