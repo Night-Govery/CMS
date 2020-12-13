@@ -30,7 +30,7 @@
 <body>
 
 <div class="x-body">
-    <form class="layui-form layui-form-pane" action="" id="add">
+    <form class="layui-form layui-form-pane" action="" id="add" method="post">
         <blockquote class="layui-elem-quote">
             <input type="hidden" name="id" value="8">
 
@@ -48,14 +48,14 @@
                             <span class='x-red'>*</span>用户名
                         </label>
                         <div class="layui-input-block">
-                            <input type="text" name="name" autocomplete="off" placeholder="空制在80个汉字，160个字符以内"
-                                   class="layui-input" value="xiyuan">
+                            <input type="text" name="name" autocomplete="off" placeholder="控制在80个汉字，160个字符以内"
+                                   class="layui-input" value="{{ username }}" readonly>
                         </div>
                     </div>
 
                     <div class="layui-form-item">
                         <label class="layui-form-label">
-                            <span class='x-red'>*</span>密码
+                            <span class='x-red'>*</span>新密码
                         </label>
                         <div class="layui-input-block">
                             <input type="password" name="password" value="" autocomplete="off" placeholder=""
@@ -64,7 +64,7 @@
                     </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label">
-                            <span class='x-red'>*</span>新密码
+                            <span class='x-red'>*</span>确认密码
                         </label>
                         <div class="layui-input-block">
                             <input type="password" name="newpassword" value="" autocomplete="off" placeholder="新密码为空则不修改"
@@ -73,7 +73,7 @@
                     </div>
 
                     <div class="layui-form-item">
-                        <button class="layui-btn" type="button" lay-filter="add" lay-submit="">
+                        <button class="layui-btn" type="submit" lay-filter="add">
                             保存
                         </button>
                     </div>
@@ -150,13 +150,13 @@
 </script>
 <!--栏目缩略图上传-->
    <script type="text/javascript">
-            var message = {{message}};
+            var message = {{ message }};
             switch (message){
                 case 0:
-                    layer.msg('添加失败', {icon: 0});
+                    layer.msg('操作失败', {icon: 0});
                     break;
                 case 1:
-                     layer.msg('添加成功', {icon: 1});
+                     layer.msg('操作成功', {icon: 1});
                     break;
                 case -1:
                     break;

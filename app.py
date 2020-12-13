@@ -39,15 +39,15 @@ def welcome():
         return render_template('welcome.html')
 
 
-# 报错(已完成)
-@app.route('/error', methods=['GET', 'POST'])
-def error():
-    # 如果没有登录，就返回登录页
-    if "username" not in session:
-        return redirect(url_for('index'))
-    # 如果登录，就前往页面
-    else:
-        return render_template('error.html')
+# # 报错(已完成)
+# @app.route('/error', methods=['GET', 'POST'])
+# def error():
+#     # 如果没有登录，就返回登录页
+#     if "username" not in session:
+#         return redirect(url_for('index'))
+#     # 如果登录，就前往页面
+#     else:
+#         return render_template('error.html')
 
 
 # 无权限页(已完成)
@@ -102,14 +102,18 @@ def logout():
 
 
 # 用户设置(已完成)
-@app.route('/one_set', methods=['GET', 'POST'])
-def oneset():
+@app.route('/one_set/<username>', methods=['GET', 'POST'])
+def oneset(username):
     # 如果没有登录，就返回登录页
     if "username" not in session:
         return redirect(url_for('index'))
     # 如果登录，就前往页面
     else:
-        return render_template('one_set.html')
+        message = -1
+        if request.method == 'POST':
+            newpass = request.form.get('password')
+            message = mysql_member.database_changememberpassword(connection, cursor, username, newpass)
+        return render_template('one_set.html', message=message, username=username)
 
 
 # 主页(已完成)
@@ -689,7 +693,7 @@ def customerlist():
         # 校验权限
         # 有权限
         if session.get('查询客户'):
-            return render_template('customer-list.htmlhtml')
+            return render_template('customer-list.html')
         # 无权限
         else:
             return redirect(url_for('nopermission'))
