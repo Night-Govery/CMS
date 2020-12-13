@@ -113,18 +113,22 @@
     </form>
 </div>
 
+
 <script type="text/javascript">
-    var message = {{message}};
-    switch (message){
+    layui.use('layer', function(){
+      var layer = layui.layer;
+      var message = {{message}};
+        switch (message){
         case 0:
-            layer.msg('合同名重复', {icon: 0});
+            layer.msg('客户名重复', {icon: 0});
             break;
         case 1:
              layer.msg('编辑成功', {icon: 1});
             break;
         case -1:
             break;
-    }
+        }
+    });
 </script>
 <script>
     layui.use(['element','layer','form','upload'], function(){

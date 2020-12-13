@@ -42,8 +42,10 @@
             </div>
         </div>
         <script type="text/javascript">
-            var message = {{message}};
-            switch (message){
+            layui.use('layer', function(){
+              var layer = layui.layer;
+              var message = {{message}};
+                switch (message){
                 case 0:
                     layer.msg('添加用户失败，用户名已存在', {icon: 0});
                     break;
@@ -53,6 +55,7 @@
                 case -1:
                     break;
             }
+            });
         </script>
         <script>layui.use(['form', 'layer','jquery'],
             function() {
