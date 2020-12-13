@@ -32,7 +32,7 @@ def database_yiqianding(connection, cursor, userName):
 
 
 # 签订合同
-def database_huiqian(connection, cursor, name, userName, qianding):
+def database_qianding(connection, cursor, name, userName, qianding):
     lock.acquire()
     timenum = datetime.datetime.strftime(datetime.datetime.now(), '%Y-%m-%d %H:%M:%S')
     # 更新数据

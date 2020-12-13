@@ -12,6 +12,7 @@ import mysql_fenpei
 import mysql_huiqian
 import mysql_login
 import mysql_member
+import mysql_qianding
 import mysql_qicao
 import mysql_role
 import mysql_shenpi
@@ -371,7 +372,9 @@ def daiqianding():
     else:
         # 有权限
         if session.get('签订合同'):
-            return render_template('daiqianding.html')
+            username = session.get('username')
+            daiqianding_list = mysql_qianding.database_daiqianding(connection, cursor, username)
+            return render_template('daiqianding.html', daiqianding_list=daiqianding_list)
         # 无权限
         else:
             return redirect(url_for('nopermission'))
@@ -387,7 +390,9 @@ def yiqianding():
     else:
         # 有权限
         if session.get('签订合同'):
-            return render_template('yiqianding.html')
+            username = session.get('username')
+            yiqianding_list = mysql_qianding.database_yiqianding(connection, cursor, username)
+            return render_template('yiqianding.html', yiqianding_list=yiqianding_list)
         # 无权限
         else:
             return redirect(url_for('nopermission'))
@@ -403,7 +408,13 @@ def qianding(contractName):
     else:
         # 有权限
         if session.get('签订合同'):
-            return render_template('qianding.html', contractName=contractName)
+            message = -1
+            if request.method == 'POST':
+                info = request.form.get('info')
+                userName = session.get('username')
+                message = mysql_qianding.database_qianding(connection, cursor, contractName, userName, info)
+            contract = mysql_contract.database_getcontractinfo(connection, cursor, contractName)
+            return render_template('qianding.html', contractName=contractName, message=message, contract=contract)
         # 无权限
         else:
             return redirect(url_for('nopermission'))

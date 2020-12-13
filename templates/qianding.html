@@ -35,7 +35,7 @@
                             <span class='x-red'></span>合同名称
                         </label>
                         <div class="layui-input-block">
-                            <input type="text" name="name" autocomplete="off" ="{{ contractName }}"
+                            <input type="text" name="name" autocomplete="off" value="{{ contractName }}"
                                    class="layui-input" readonly="true">
                         </div>
                     </div>
@@ -44,7 +44,7 @@
                             <span class='x-red'></span>客户
                         </label>
                         <div class="layui-input-block">
-                            <input type="text" name="client" autocomplete="off" placeholder="王五"
+                            <input type="text" name="client" autocomplete="off" value="{{ contract['contractcusname'] }}"
                                    class="layui-input" readonly="true">
                         </div>
                     </div>
