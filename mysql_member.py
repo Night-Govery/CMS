@@ -91,7 +91,7 @@ def addmember(connection, cursor, userName, password):
     # 用户名重复
     if result:
         lock.release()
-        return 2
+        return 0
     # 注册成功
     else:
         # 插入数据
@@ -100,4 +100,4 @@ def addmember(connection, cursor, userName, password):
         # 提交数据
         connection.commit()
         lock.release()
-        return 3
+        return 1

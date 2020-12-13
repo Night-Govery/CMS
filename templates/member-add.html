@@ -45,10 +45,10 @@
             var message = {{message}};
             switch (message){
                 case 0:
-                    layer.msg('添加失败', {icon: 0});
+                    layer.msg('添加用户失败，用户名已存在', {icon: 0});
                     break;
                 case 1:
-                     layer.msg('添加成功', {icon: 1});
+                     layer.msg('添加用户成功', {icon: 1});
                     break;
                 case -1:
                     break;

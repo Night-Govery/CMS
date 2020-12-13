@@ -15,7 +15,7 @@ def database_qicao(connection, cursor, name, client, start, end, info, userName)
     # 合同名重复
     if result:
         lock.release()
-        return False
+        return 0
     # 无重复
     else:
         # 插入数据
@@ -27,4 +27,4 @@ def database_qicao(connection, cursor, name, client, start, end, info, userName)
         # 提交数据
         connection.commit()
         lock.release()
-        return True
+        return 1

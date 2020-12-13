@@ -46,13 +46,10 @@ def database_huiqian(connection, cursor, name, userName, yijian):
     # 获取数据库单条数据
     result = cursor.fetchone()
     # 全部会签完毕
-    if result:
-        lock.release()
-        return True
-    else:
+    if not result:
         sql = "UPDATE contract_state SET type='2', time='" + timenum + "' WHERE contract_state.con_id=(SELECT id FROM contract WHERE name='" + name + "') and contract_state.type=1"
         cursor.execute(sql)
         # 提交数据
         connection.commit()
     lock.release()
-    return True
+    return 1
