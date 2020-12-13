@@ -63,7 +63,7 @@ def database_editrole(connection, cursor, roleName, functionName):
     # 提交数据
     connection.commit()
     lock.release()
-    return True
+    return 1
 
 
 # 删除角色
@@ -77,4 +77,15 @@ def database_deleterole(connection, cursor, roleName):
     # 提交数据
     connection.commit()
     lock.release()
-    return True
+    return 1
+
+# 新增角色数据
+def database_addrole(connection, cursor, roleName, functionName):
+    lock.acquire()
+    # 分两步，先查询是否有重名，有返回0，没有就根据传入的权限列表创建新的角色
+    sql = "先查询是否有重名，有返回0，没有就根据传入的权限列表创建新的角色"
+    cursor.execute(sql)
+    # 提交数据
+    connection.commit()
+    lock.release()
+    return 1

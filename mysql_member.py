@@ -77,7 +77,7 @@ def database_deletemember(connection, cursor, userName):
     # 提交数据
     connection.commit()
     lock.release()
-    return True
+    return 1
 
 
 # 添加新用户
