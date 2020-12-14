@@ -20,7 +20,8 @@ def database_register(connection, cursor, ruser, psw1):
         # 提交数据
         connection.commit()
         # 插入数据
-        sql = "INSERT INTO rights (use_id,rol_id)VALUES((SELECT id FROM user WHERE name='" + ruser + "), '6');"
+        sql = "INSERT INTO rights (use_id,rol_id)VALUES((SELECT id FROM user WHERE name='" + ruser + "'),'6');"
+        print(sql)
         cursor.execute(sql)
         # 提交数据
         connection.commit()

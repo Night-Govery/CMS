@@ -79,6 +79,7 @@ def database_deleterole(connection, cursor, roleName):
     lock.release()
     return 1
 
+
 # 新增角色数据
 def database_addrole(connection, cursor, roleName, functionName):
     lock.acquire()
@@ -89,3 +90,37 @@ def database_addrole(connection, cursor, roleName, functionName):
     connection.commit()
     lock.release()
     return 1
+
+
+# 查看权限列表
+def database_getpermissionlist(connection, cursor):
+    lock.acquire()
+    permissionlist = []
+    permissioninfo = {'fun_id': -1, 'functionsName': 'NULL', 'roleName': 'NULL'}
+    # 执行数据查询
+    sql = "select functions.id AS fun_id,functions.name AS functionsName,functions.description AS funDescription from functions"
+    cursor.execute(sql)
+    # 获取数据库单条数据
+    result = cursor.fetchall()
+    connection.commit()
+    lock.release()
+    flag = 0
+    permissionlist.append(permissioninfo)
+    for a in result:
+        count = len(permissionlist)
+        for b in permissionlist:
+            if flag == 0:
+                b['fun_id'] = a['fun_id']
+                b['functionsName'] = a['functionsName']
+                b['funDescription'].a['funDescription']
+                flag = 1
+                break
+            if a['fun_id'] == b['fun_id']:
+                b['functionsName'] = a['functionsName']
+                b['funDescription'].a['funDescription']
+            else:
+                count = count - 1
+        if count == 0:
+            temp_userinfo = {'fun_id': a['fun_id'], 'functionsName': a['functionsName'], 'funDescription': a['funDescription']}
+            permissionlist.append(temp_userinfo)
+    return permissionlist

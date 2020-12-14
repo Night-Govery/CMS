@@ -11,7 +11,7 @@ def database_memberlist(connection, cursor):
           "user.id=use_id and " \
           "role.id=rol_id "
     cursor.execute(sql)
-    # 获取数据库单条数据
+    # 获取数据库多条数据
     result = cursor.fetchall()
     connection.commit()
     lock.release()
@@ -68,6 +68,7 @@ def database_changememberpassword(connection, cursor, userName, password):
 # 删除用户
 def database_deletemember(connection, cursor, userName):
     lock.acquire()
+    # 清楚用户未会签以及未审批操作
     # 删除用户及相关内容
     sql = "DELETE FROM rights WHERE rights.use_id=(SELECT id FROM user WHERE name ='" + userName + "')"
     cursor.execute(sql)
@@ -105,6 +106,12 @@ def addmember(connection, cursor, userName, password):
     else:
         # 插入数据
         sql = "INSERT INTO user (name, password)VALUES('" + userName + "', '" + password + "');"
+        cursor.execute(sql)
+        # 提交数据
+        connection.commit()
+        # 插入数据
+        sql = "INSERT INTO rights (use_id,rol_id)VALUES((SELECT id FROM user WHERE name='" + userName + "'),'6');"
+        print(sql)
         cursor.execute(sql)
         # 提交数据
         connection.commit()

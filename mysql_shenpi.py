@@ -22,9 +22,9 @@ def database_yishenpi(connection, cursor, userName):
     lock.acquire()
     # 执行数据查询
     sql = "select DISTINCT contract.name AS contractName, contract_state.time AS contractTime from contract,contract_state,contract_process" \
-          " where contract_state.con_id=contract.id and contract_process.con_id=contract.id and contract_state.type=4 and contract_process.use_id=(SELECT id FROM user WHERE name ='" + userName + "') and contract_process.type=2 and contract_process.state=1" \
+          " where contract_state.con_id=contract.id and contract_process.con_id=contract.id and contract_state.type>=4 and contract_process.use_id=(SELECT id FROM user WHERE name ='" + userName + "') and contract_process.type=2 and contract_process.state=1" \
           " UNION select DISTINCT contract.name AS contractName, contract_state.time AS contractTime from contract,contract_state,contract_process " \
-          " where contract_state.con_id=contract.id and contract_process.con_id=contract.id and contract_state.type=2 and contract_process.use_id=(SELECT id FROM user WHERE name ='" + userName + "') and contract_process.type=2 and contract_process.state=2"
+          " where contract_state.con_id=contract.id and contract_process.con_id=contract.id and contract_state.type>=2 and contract_process.use_id=(SELECT id FROM user WHERE name ='" + userName + "') and contract_process.type=2 and contract_process.state=2"
     cursor.execute(sql)
     # 获取数据库单条数据
     result = cursor.fetchall()
@@ -68,7 +68,11 @@ def database_shenpi(connection, cursor, name, userName, state, yijian):
             cursor.execute(sql)
             # 提交数据
             connection.commit()
-        else:
-            print(state)
+        # 更新数据con_id,use_id,type,state
+        sql = "UPDATE contract_process SET content=NULL,time=NULL,state='0' WHERE contract_process.con_id=(SELECT id FROM " \
+              "contract WHERE name='" + name + "') and contract_process.type=3 "
+        cursor.execute(sql)
+        # 提交数据
+        connection.commit()
         lock.release()
         return True
