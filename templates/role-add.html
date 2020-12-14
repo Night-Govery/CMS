@@ -136,7 +136,7 @@
                     </div>
                 </div>
                 <div class="layui-form-item">
-                <button class="layui-btn" type="submit" lay-submit="" lay-filter="add">增加</button>
+                <button class="layui-btn" type="submit" lay-filter="add">增加</button>
               </div>
             </form>
         </div>
@@ -162,40 +162,21 @@
             }
           });
 
-          //监听提交
-          form.on('submit(add)', function(data){
-            console.log(data);
-            //发异步，把数据提交给php
-            layer.alert("增加成功", {icon: 6},function () {
-                // 获得frame索引
-                var index = parent.layer.getFrameIndex(window.name);
-                //关闭当前frame
-                parent.layer.close(index);
-            });
-            return false;
-          });
-
-
         form.on('checkbox(father)', function(data){
 
             if(data.elem.checked){
                 $(data.elem).parent().siblings('td').find('input').prop("checked", true);
-                form.render(); 
+                form.render();
             }else{
                $(data.elem).parent().siblings('td').find('input').prop("checked", false);
-                form.render();  
+                form.render();
             }
         });
-          
-          
+
+
         });
     </script>
-    <script>var _hmt = _hmt || []; (function() {
-        var hm = document.createElement("script");
-        hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";
-        var s = document.getElementsByTagName("script")[0];
-        s.parentNode.insertBefore(hm, s);
-      })();</script>
+
   </body>
 <script type="text/javascript">
     layui.use('layer', function(){
