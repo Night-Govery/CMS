@@ -16,7 +16,7 @@ def database_customerlist(connection, cursor, userName):
 
 
 # 新增客户
-def database_addcustomer(connection, cursor, customerName, customerAddr, customerTel):
+def database_addcustomer(connection, cursor, customerName, customerAddress, customerTel, customerFax, customerCose, customerBank, customerAccount):
     lock.acquire()
     # 执行数据查询,查询是否重名
     sql = "SELECT id FROM customer WHERE name='" + customerName + "' and tel ='" + customerTel + "'"
@@ -29,7 +29,7 @@ def database_addcustomer(connection, cursor, customerName, customerAddr, custome
         return 0
     # 添加成功
     else:
-        sql = "INSERT INTO customer(name,address,tel)VALUES('" + customerName + "','" + customerAddr + "','" + customerTel + "');"
+        sql = "INSERT INTO customer(name,address,tel,fax,cod,bank,account)VALUES('" + customerName + "','" + customerAddress + "','" + customerTel + "','" + customerFax + "','" + customerCose + "','" + customerBank + "','" + customerAccount + "');"
         cursor.execute(sql)
         connection.commit()
     lock.release()
@@ -37,4 +37,5 @@ def database_addcustomer(connection, cursor, customerName, customerAddr, custome
 
 
 def database_deletecustomer(connection, cursor, customerName, userName):
+
     return None

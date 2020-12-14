@@ -15,4 +15,11 @@ def database_loglist(connection, cursor, userName):
 
 
 def database_deletelog(connection, cursor, userName, log_id):
+    lock.acquire()
+    # 删除
+    sql = "DELETE FROM log WHERE id='" + log_id + "'"
+    cursor.execute(sql)
+    # 提交数据
+    connection.commit()
+    lock.release()
     return None
