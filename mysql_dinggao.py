@@ -7,8 +7,8 @@ from cffi.cparser import lock
 def database_daidinggao(connection, cursor, userName):
     lock.acquire()
     # 执行数据查询
-    sql = "select DISTINCT contract.name AS contractName, contract_state.time AS contractTime from contract,contract_state,user" \
-          " where contract_state.con_id=contract.id and contract_state.type=2 and contract.use_id=(SELECT id FROM user WHERE name ='" + userName + "')"
+    sql = "select DISTINCT contract.name AS contractName, contract_state.time AS contractTime from contract,contract_state,user,contract_process" \
+          " where contract_state.con_id=contract.id and contract_process.con_id=contract.id and contract_state.type=2 and contract.use_id=(SELECT id FROM user WHERE name ='" + userName + "')"
     cursor.execute(sql)
     # 获取数据库单条数据
     result = cursor.fetchall()
@@ -22,7 +22,7 @@ def database_yidinggao(connection, cursor, userName):
     lock.acquire()
     # 执行数据查询
     sql = "select DISTINCT contract.name AS contractName, contract_state.time AS contractTime from contract,contract_state " \
-          "where contract_state.id=contract.id and contract_state.type=3 and contract.use_id=(SELECT id FROM user " \
+          "where contract_state.id=contract.id and contract_state.type>=3 and contract.use_id=(SELECT id FROM user " \
           "WHERE name ='" + userName + "') "
     cursor.execute(sql)
     # 获取数据库单条数据
@@ -53,6 +53,12 @@ def database_dinggao(connection, cursor, name, userName, dinggao):
         connection.commit()
         # 更新数据
         sql = "UPDATE contract SET content='" + dinggao + "' WHERE contract.name='" + name + "' and contract.use_id=(SELECT id FROM user WHERE name='" + userName + "')"
+        cursor.execute(sql)
+        # 提交数据
+        connection.commit()
+        # 更新数据con_id,use_id,type,state
+        sql = "UPDATE contract_process SET content=NULL,time=NULL,state='0' WHERE contract_process.con_id=(SELECT id FROM " \
+              "contract WHERE name='" + name + "') and contract_process.type=2 "
         cursor.execute(sql)
         # 提交数据
         connection.commit()
