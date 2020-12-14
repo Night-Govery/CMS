@@ -34,3 +34,7 @@ def database_addcustomer(connection, cursor, customerName, customerAddr, custome
         connection.commit()
     lock.release()
     return 1
+
+
+def database_deletecustomer(connection, cursor, customerName, userName):
+    return None

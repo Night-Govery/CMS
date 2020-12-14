@@ -10,6 +10,7 @@ import mysql_customer
 import mysql_dinggao
 import mysql_fenpei
 import mysql_huiqian
+import mysql_log
 import mysql_login
 import mysql_member
 import mysql_qianding
@@ -247,7 +248,7 @@ def huiqian(contractName):
             return redirect(url_for('nopermission'))
 
 
-# 待定稿(已完成)(已完成)
+# 待定稿(已完成)
 @app.route('/daidinggao', methods=['GET', 'POST'])
 def daidinggao():
     # 如果没有登录，就返回登录页
@@ -473,11 +474,11 @@ def fenpeishenpi(constractName):
         # 有权限
         if session.get('分配审批'):
             message = -1
-            username = session.get('username')
-            user_list = mysql_member.database_memberlist(connection, cursor, username)
+            userName = session.get('username')
+            user_list = mysql_member.database_memberlist(connection, cursor, userName)
             if request.method == 'POST':
                 huiqian_list = request.form.getlist('shenpi')
-                message = mysql_fenpei.database_fenpeishenpi(connection, cursor, constractName, huiqian_list, username)
+                message = mysql_fenpei.database_fenpeishenpi(connection, cursor, constractName, huiqian_list, userName)
             return render_template('fenpeishenpi.html', user_list=user_list, message=message,
                                    constractName=constractName)
         # 无权限
@@ -496,12 +497,12 @@ def fenpeiqianding(constractName):
         # 有权限
         if session.get('分配签订'):
             message = -1
-            username = session.get('username')
-            user_list = mysql_member.database_memberlist(connection, cursor, username)
+            userName = session.get('username')
+            user_list = mysql_member.database_memberlist(connection, cursor, userName)
             if request.method == 'POST':
                 huiqian_list = request.form.getlist('qianding')
                 message = mysql_fenpei.database_fenpeiqianding(connection, cursor, constractName, huiqian_list,
-                                                               username)
+                                                               userName)
             return render_template('fenpeiqianding.html', user_list=user_list, message=message,
                                    constractName=constractName)
         # 无权限
@@ -554,16 +555,16 @@ def role():
     else:
         # 校验权限
         if session.get('查询角色'):
-            username = session.get('username')
-            role_list = mysql_role.database_rolelist(connection, cursor, username)
+            userName = session.get('username')
+            role_list = mysql_role.database_rolelist(connection, cursor, userName)
             return render_template('role.html', role_list=role_list)
         else:
             return redirect(url_for('nopermission'))
 
 
 # 删除角色
-@app.route('/role-delete', methods=['GET', 'POST'])
-def roledelete():
+@app.route('/role-delete/<roleName>', methods=['GET', 'POST'])
+def roledelete(roleName):
     # 如果没有登录，就返回登录页
     if "username" not in session:
         return redirect(url_for('index'))
@@ -572,7 +573,10 @@ def roledelete():
         # 校验权限
         # 有权限
         if session.get('删除角色'):
-            print("删除角色成功")
+            userName = session.get('username')
+            message = mysql_role.database_deleterole(connection, cursor, roleName, userName)
+            role_list = mysql_role.database_rolelist(connection, cursor, userName)
+            return render_template('role.html', role_list=role_list, message=message)
         # 无权限
         else:
             return redirect(url_for('nopermission'))
@@ -612,12 +616,12 @@ def memberedit(change_member):
         # 有权限
         if session.get('编辑用户'):
             message = -1
-            username = session.get('username')
+            userName = session.get('username')
             if request.method == 'POST':
                 uname = request.form.get('name')
                 urole = request.form.getlist('status')
-                message = mysql_member.database_editmember(connection, cursor, uname, urole, username)
-            role_list = mysql_role.database_rolelist(connection, cursor, username)
+                message = mysql_member.database_editmember(connection, cursor, uname, urole, userName)
+            role_list = mysql_role.database_rolelist(connection, cursor, userName)
             return render_template('member-edit.html', role_list=role_list, change_member=change_member,
                                    message=message)
         # 无权限
@@ -636,11 +640,11 @@ def memberpassword(membername):
         # 有权限
         if session.get('编辑用户'):
             message = -1
-            username = session.get('username')
+            userName = session.get('username')
             if request.method == 'POST':
                 # 登录信息
                 newpass = request.form.get('newpass')
-                message = mysql_member.database_changememberpassword(connection, cursor, membername, newpass, username)
+                message = mysql_member.database_changememberpassword(connection, cursor, membername, newpass, userName)
             return render_template('member-password.html', message=message, membername=membername)
         # 无权限
         else:
@@ -656,9 +660,10 @@ def memberlist():
     # 如果登录，就前往页面
     else:
         if session.get('查询用户'):
-            username = session.get('username')
-            member_list = mysql_member.database_memberlist(connection, cursor, username)
-            return render_template('member-list.html', member_list=member_list)
+            message = -1
+            userName = session.get('username')
+            member_list = mysql_member.database_memberlist(connection, cursor, userName)
+            return render_template('member-list.html', member_list=member_list, message=message)
         else:
             return redirect(url_for('nopermission'))
 
@@ -674,9 +679,9 @@ def memberdelete(delete_member):
         # 校验权限
         # 有权限
         if session.get('删除用户'):
-            username = session.get('username')
-            message = mysql_member.database_deletemember(connection, cursor, delete_member, username)
-            member_list = mysql_member.database_memberlist(connection, cursor, username)
+            userName = session.get('username')
+            message = mysql_member.database_deletemember(connection, cursor, delete_member, userName)
+            member_list = mysql_member.database_memberlist(connection, cursor, userName)
             return render_template('member-list.html', member_list=member_list, message=message)
         # 无权限
         else:
@@ -694,15 +699,18 @@ def log():
         # 校验权限
         # 有权限
         if session.get('查询日志'):
-            return render_template('log.html')
+            message = -1
+            userName = session.get('username')
+            log_list = mysql_log.database_loglist(connection, cursor, userName)
+            return render_template('log.html', log_list=log_list, message=message)
         # 无权限
         else:
             return redirect(url_for('nopermission'))
 
 
 # 删除日志
-@app.route('/log', methods=['GET', 'POST'])
-def logdelete():
+@app.route('/log/<log_id>', methods=['GET', 'POST'])
+def logdelete(log_id):
     # 如果没有登录，就返回登录页
     if "username" not in session:
         return redirect(url_for('index'))
@@ -711,7 +719,10 @@ def logdelete():
         # 校验权限
         # 有权限
         if session.get('删除日志'):
-            print("删除日志成功")
+            userName = session.get('username')
+            message = mysql_log.database_deletelog(connection, cursor, userName, log_id)
+            log_list = mysql_log.database_loglist(connection, cursor, userName)
+            return render_template('log.html', log_list=log_list, message=message)
         # 无权限
         else:
             return redirect(url_for('nopermission'))
@@ -728,7 +739,63 @@ def customerlist():
         # 校验权限
         # 有权限
         if session.get('查询客户'):
-            return render_template('customer-list.html')
+            userName = session.get('username')
+            customer_list = mysql_customer.database_customerlist(connection, cursor, userName)
+            return render_template('customer-list.html', customer_list=customer_list)
+        # 无权限
+        else:
+            return redirect(url_for('nopermission'))
+
+
+# 新增客户
+@app.route('/customer-add', methods=['GET', 'POST'])
+def customeradd():
+    # 如果没有登录，就返回登录页
+    if "username" not in session:
+        return redirect(url_for('index'))
+    # 如果登录，就前往页面
+    else:
+        # 校验权限
+        # 有权限
+        if session.get('新增客户'):
+            return render_template('customer-add.html')
+        # 无权限
+        else:
+            return redirect(url_for('nopermission'))
+
+
+# 编辑客户
+@app.route('/customer-edit/<customerName>', methods=['GET', 'POST'])
+def customeredit(customerName):
+    # 如果没有登录，就返回登录页
+    if "username" not in session:
+        return redirect(url_for('index'))
+    # 如果登录，就前往页面
+    else:
+        # 校验权限
+        # 有权限
+        if session.get('编辑客户'):
+            return render_template('customer-edit.html', customerName=customerName)
+        # 无权限
+        else:
+            return redirect(url_for('nopermission'))
+
+
+# 删除客户
+@app.route('/customer-delete/<customerName>', methods=['GET', 'POST'])
+def customerdelete(customerName):
+    # 如果没有登录，就返回登录页
+    if "username" not in session:
+        return redirect(url_for('index'))
+    # 如果登录，就前往页面
+    else:
+        # 校验权限
+        # 有权限
+        if session.get('删除客户'):
+            userName = session.get('username')
+            message = mysql_customer.database_deletecustomer(connection, cursor, customerName, userName)
+            customer_list = mysql_customer.database_customerlist(connection, cursor, userName)
+            return render_template('customer-list.html', customer_list=customer_list, message=message)
         # 无权限
         else:
             return redirect(url_for('nopermission'))
