@@ -22,7 +22,7 @@ def database_yihuiqian(connection, cursor, userName):
     lock.acquire()
     # 执行数据查询
     sql = "select DISTINCT contract.name AS contractName, contract_state.time AS contractTime from contract,contract_state,contract_process" \
-          " where contract_state.con_id=contract.id and contract_state.type>=2 and contract_process.use_id=(SELECT id FROM user WHERE name ='" + userName + "') and contract_process.type=1 and contract_process.state=1"
+          " where contract_state.con_id=contract.id and contract_process.con_id=contract.id and contract_state.type>=2 and contract_process.use_id=(SELECT id FROM user WHERE name ='" + userName + "') and contract_process.type=1 and contract_process.state=1"
     cursor.execute(sql)
     # 获取数据库单条数据
     result = cursor.fetchall()
