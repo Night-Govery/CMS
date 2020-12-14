@@ -16,16 +16,6 @@
     <link rel="stylesheet" href="../static/css/index.css">
     <script src="../static/lib/layui/layui.js" charset="utf-8"></script>
     <script type="text/javascript" src="../static/js/mainindex.js"></script>
-
-    <!--<style>
-        .imgs{display: none;}
-        .picture{display: none;}
-    </style>-->
-
-    <!--百度编辑器-->
-    <script src="./ueditor/ueditor.config.js"></script>
-    <script src="./ueditor/ueditor.all.min.js"></script>
-    <script src="./ueditor/lang/zh-cn/zh-cn.js"></script>
 </head>
 <body>
 <div class="x-nav">
@@ -139,81 +129,36 @@
         }
     });
 </script>
-<script type="text/javascript">
-    //实例化编辑器
-    //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
-    UE.getEditor('content',{initialFrameWidth:600,initialFrameHeight:400,});
-</script>
 <script>
     layui.use(['element','layer','form','upload'], function(){
         var  $ = layui.jquery;//jquery
-        var lement = layui.element;//面包导航
         var layer = layui.layer;//弹出层
         var form = layui.form;
-        var upload = layui.upload;
-
-
-
-        //图片上传接口
-        /*layui.upload({
-          url: './upload.json' //上传接口
-          ,success: function(res){ //上传成功后的回调
-              console.log(res);
-            $('#LAY_demo_upload').attr('src',res.url);
-          }
-        });*/
-        //指定允许上传的文件类型
-        upload.render({
-            elem: '#test3'
-            ,url: 'https://httpbin.org/post' //改成您自己的上传接口
-            ,accept: 'file' //普通文件
-            ,done: function(res){
-                layer.msg('上传成功');
-                console.log(res);
-            }
-        });
-
         //监听提交
         form.on('submit(add)', function(data){
-            var title=$("input[name='title']").val();
-            //var content=$("textarea[name='content']").val();
-
-            var article_category_id=$('#article_category_id option:selected') .val();//所属文章类型
-            //alert(title);
-            //var form=$("#cate_add").serialize();
-            if(title==""){
-                layer.msg('文章标题不能为空',{icon:5,time:2000});return false;
+            var name=$("input[name='name']").val();
+            var client=$("input[name='client']").val();
+            var start=$("input[name='start']").val();
+            var end=$("input[name='end']").val();
+            var info=$("textarea[name='info']").val();
+            if(name==""){
+                layer.msg('合同名称不能为空',{icon:5,time:2000});return false;
             }
-            if(article_category_id==""){
-                layer.msg('文章类型不能为空',{icon:5,time:2000});return false;
+            else if(client==""){
+                layer.msg('客户名称不能为空',{icon:5,time:2000});return false;
             }
-            /*if(content){
-                layer.msg("文章内容不能为空！",{icon:5,time:2000});return false;
-          }*/
-            var data = data.field;
-            $.ajax({
-                type:"post",
-                url:"",
-                data:data,
-                dataType:"json",
-                success:function(data){
-                    if(data.status==1){
-                        layer.msg(data.info, {icon: 6,time:2000},function () {
-                            window.parent.location.reload();
-                            var index = parent.layer.getFrameIndex(window.name);
-                            parent.layer.close(index);
-                        });
-                        return false;
-
-                    }else{
-                        layer.msg(data.info,{icon:5,time:2000});return false;
-                    }
-                }
-
-            });
-
+            else if(info==""){
+                layer.msg("内容不能为空！",{icon:5,time:2000});return false;
+            }
+            else if(start==""){
+                layer.msg("日期不能为空！",{icon:5,time:2000});return false;
+            }
+            else if(end==""){
+                layer.msg("日期不能为空！",{icon:5,time:2000});return false;
+            }
+            else
+                event.preventDefault();
         });
-
     })
 </script>
 </body>

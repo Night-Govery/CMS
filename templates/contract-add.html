@@ -118,11 +118,6 @@
         }
     });
 </script>
-<script type="text/javascript">
-    //实例化编辑器
-    //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
-    UE.getEditor('content',{initialFrameWidth:600,initialFrameHeight:400,});
-</script>
 <script>
     layui.use(['element','layer','form','upload'], function(){
         var  $ = layui.jquery;//jquery
@@ -130,45 +125,27 @@
         var form = layui.form;
         //监听提交
         form.on('submit(add)', function(data){
-            var title=$("input[name='title']").val();
-            //var content=$("textarea[name='content']").val();
-
-            var article_category_id=$('#article_category_id option:selected') .val();//所属文章类型
-            //alert(title);
-            //var form=$("#cate_add").serialize();
-            if(title==""){
-                layer.msg('文章标题不能为空',{icon:5,time:2000});return false;
+            var name=$("input[name='name']").val();
+            var client=$("input[name='client']").val();
+            var start=$("input[name='start']").val();
+            var end=$("input[name='end']").val();
+            var info=$("textarea[name='info']").val();
+            if(name==""){
+                layer.msg('合同名称不能为空',{icon:5,time:2000});return false;
             }
-            if(article_category_id==""){
-                layer.msg('文章类型不能为空',{icon:5,time:2000});return false;
+            if(client==""){
+                layer.msg('客户名称不能为空',{icon:5,time:2000});return false;
             }
-            /*if(content){
-                layer.msg("文章内容不能为空！",{icon:5,time:2000});return false;
-          }*/
-            var data = data.field;
-            $.ajax({
-                type:"post",
-                url:"",
-                data:data,
-                dataType:"json",
-                success:function(data){
-                    if(data.status==1){
-                        layer.msg(data.info, {icon: 6,time:2000},function () {
-                            window.parent.location.reload();
-                            var index = parent.layer.getFrameIndex(window.name);
-                            parent.layer.close(index);
-                        });
-                        return false;
-
-                    }else{
-                        layer.msg(data.info,{icon:5,time:2000});return false;
-                    }
-                }
-
-            });
-
+            if(info==""){
+                layer.msg("内容不能为空！",{icon:5,time:2000});return false;
+            }
+            if(start==""){
+                layer.msg("日期不能为空！",{icon:5,time:2000});return false;
+            }
+            if(end==""){
+                layer.msg("日期不能为空！",{icon:5,time:2000});return false;
+            }
         });
-
     })
 </script>
 </body>
