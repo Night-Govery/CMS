@@ -2,7 +2,7 @@ from cffi.cparser import lock
 
 
 # 查询角色列表
-def database_rolelist(connection, cursor):
+def database_rolelist(connection, cursor, userName):
     lock.acquire()
     rolelist = []
     roleinfo = {'rol_id': -1, 'roleName': 'NULL', 'description': 'NULL',
@@ -52,7 +52,7 @@ def database_rolelist(connection, cursor):
 
 
 # 更改角色数据
-def database_editrole(connection, cursor, roleName, functionName):
+def database_editrole(connection, cursor, roleName, functionName, userName):
     lock.acquire()
     # 删除角色数据
     sql = "DELETE FROM role_functions WHERE role_functions.rol_id=(SELECT id FROM role WHERE name ='" + roleName + "')"
@@ -67,7 +67,7 @@ def database_editrole(connection, cursor, roleName, functionName):
 
 
 # 删除角色
-def database_deleterole(connection, cursor, roleName):
+def database_deleterole(connection, cursor, roleName, userName):
     lock.acquire()
     # 删除角色及相关内容
     sql = "DELETE FROM role_functions WHERE role_functions.rol_id=(SELECT id FROM role WHERE name ='" + roleName + "')"
@@ -81,7 +81,7 @@ def database_deleterole(connection, cursor, roleName):
 
 
 # 新增角色数据
-def database_addrole(connection, cursor, roleName, functionName):
+def database_addrole(connection, cursor, roleName, functionName, userName):
     lock.acquire()
     # 分两步，先查询是否有重名，有返回0，没有就根据传入的权限列表创建新的角色
     sql = "先查询是否有重名，有返回0，没有就根据传入的权限列表创建新的角色"
@@ -93,7 +93,7 @@ def database_addrole(connection, cursor, roleName, functionName):
 
 
 # 查看权限列表
-def database_getpermissionlist(connection, cursor):
+def database_getpermissionlist(connection, cursor, userName):
     lock.acquire()
     permissionlist = []
     permissioninfo = {'fun_id': -1, 'functionsName': 'NULL', 'roleName': 'NULL'}

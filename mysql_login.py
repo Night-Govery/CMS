@@ -1,7 +1,7 @@
 from cffi.cparser import lock
 
 
-def database_register(connection, cursor, ruser, psw1):
+def database_register(connection, cursor, ruser, psw1, userName):
     lock.acquire()
     # 执行数据查询,查询是否重名
     sql = "SELECT password " + "FROM user" + " WHERE name='" + ruser + "'"
@@ -30,7 +30,7 @@ def database_register(connection, cursor, ruser, psw1):
 
 
 # 登录
-def database_login(connection, cursor, iuser, psw):
+def database_login(connection, cursor, iuser, psw, userName):
     lock.acquire()
     # 执行数据查询
     sql = "SELECT * FROM user" + " WHERE name='" + iuser + "' AND password='" + psw + "'"

@@ -2,7 +2,7 @@ from cffi.cparser import lock
 
 
 # 查询用户列表
-def database_memberlist(connection, cursor):
+def database_memberlist(connection, cursor, userName):
     lock.acquire()
     userlist = []
     userinfo = {'use_id': -1, 'userName': 'NULL', 'roleName': []}
@@ -38,7 +38,7 @@ def database_memberlist(connection, cursor):
 
 
 # 更改用户数据
-def database_editmember(connection, cursor, uname, urole):
+def database_editmember(connection, cursor, uname, urole, userName):
     lock.acquire()
     # 删除用户数据
     sql = "DELETE FROM rights WHERE rights.use_id=(SELECT id FROM user WHERE name ='" + uname + "')"
@@ -54,10 +54,10 @@ def database_editmember(connection, cursor, uname, urole):
 
 
 # 更改用户密码
-def database_changememberpassword(connection, cursor, userName, password):
+def database_changememberpassword(connection, cursor, uname, password, userName):
     lock.acquire()
     # 更改相关用户密码
-    sql = "UPDATE user SET password='" + password + "'WHERE name='" + userName + "'"
+    sql = "UPDATE user SET password='" + password + "'WHERE name='" + uname + "'"
     cursor.execute(sql)
     # 提交数据
     connection.commit()
@@ -66,24 +66,24 @@ def database_changememberpassword(connection, cursor, userName, password):
 
 
 # 删除用户
-def database_deletemember(connection, cursor, userName):
+def database_deletemember(connection, cursor, uname, userName):
     lock.acquire()
     # 清除用户未会签以及未审批操作
 
     # 删除用户及相关内容
-    sql = "DELETE FROM rights WHERE rights.use_id=(SELECT id FROM user WHERE name ='" + userName + "')"
+    sql = "DELETE FROM rights WHERE rights.use_id=(SELECT id FROM user WHERE name ='" + uname + "')"
     cursor.execute(sql)
     # 提交数据
     connection.commit()
-    sql = "DELETE FROM contract_process WHERE contract_process.use_id=(SELECT id FROM user WHERE name ='" + userName + "')"
+    sql = "DELETE FROM contract_process WHERE contract_process.use_id=(SELECT id FROM user WHERE name ='" + uname + "')"
     cursor.execute(sql)
     # 提交数据
     connection.commit()
-    sql = "DELETE FROM contract WHERE contract.use_id=(SELECT id FROM user WHERE name ='" + userName + "')"
+    sql = "DELETE FROM contract WHERE contract.use_id=(SELECT id FROM user WHERE name ='" + uname + "')"
     cursor.execute(sql)
     # 提交数据
     connection.commit()
-    sql = "DELETE FROM user WHERE name ='" + userName + "'"
+    sql = "DELETE FROM user WHERE name ='" + uname + "'"
     cursor.execute(sql)
     # 提交数据
     connection.commit()

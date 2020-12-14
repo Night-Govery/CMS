@@ -4,7 +4,7 @@ from cffi.cparser import lock
 
 
 # 查询待分配列表
-def database_daifenpei(connection, cursor):
+def database_daifenpei(connection, cursor, userName):
     lock.acquire()
     # 执行数据查询
     sql = "select contract.name AS contractName, contract_state.time AS contractTime from contract,contract_state where " \
@@ -18,7 +18,7 @@ def database_daifenpei(connection, cursor):
 
 
 # 分配会签
-def database_fenpeihuiqian(connection, cursor, contractName, fenpeiuser_list):
+def database_fenpeihuiqian(connection, cursor, contractName, fenpeiuser_list, userName):
     lock.acquire()
     timenum = datetime.datetime.strftime(datetime.datetime.now(), '%Y-%m-%d %H:%M:%S')
     sql = "DELETE FROM contract_process WHERE contract_process.con_id=(SELECT id FROM contract WHERE name='" + contractName + "') and contract_process.type=1"
@@ -49,7 +49,7 @@ def database_fenpeihuiqian(connection, cursor, contractName, fenpeiuser_list):
 
 
 # 分配审批
-def database_fenpeishenpi(connection, cursor, contractName, fenpeiuser_list):
+def database_fenpeishenpi(connection, cursor, contractName, fenpeiuser_list, userName):
     lock.acquire()
     timenum = datetime.datetime.strftime(datetime.datetime.now(), '%Y-%m-%d %H:%M:%S')
     sql = "DELETE FROM contract_process WHERE contract_process.con_id=(SELECT id FROM contract WHERE name='" + contractName + "') and contract_process.type=2"
@@ -80,7 +80,7 @@ def database_fenpeishenpi(connection, cursor, contractName, fenpeiuser_list):
 
 
 # 分配签订
-def database_fenpeiqianding(connection, cursor, contractName, fenpeiuser_list):
+def database_fenpeiqianding(connection, cursor, contractName, fenpeiuser_list, userName):
     lock.acquire()
     timenum = datetime.datetime.strftime(datetime.datetime.now(), '%Y-%m-%d %H:%M:%S')
     sql = "DELETE FROM contract_process WHERE contract_process.con_id=(SELECT id FROM contract WHERE name='" + contractName + "') and contract_process.type=3"

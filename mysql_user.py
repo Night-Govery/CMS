@@ -2,12 +2,12 @@ from cffi.cparser import lock
 
 
 # 查询用户的角色
-def database_getuserrole(connection, cursor, username):
+def database_getuserrole(connection, cursor, userName):
     userrole_list = []
     lock.acquire()
     # 执行数据查询
     sql = "select role.name AS roleName from user,role,rights where rights.rol_id=role.id and rights.use_id=user.id " \
-          "and user.name='" + username + "'"
+          "and user.name='" + userName + "'"
     cursor.execute(sql)
     # 获取数据库单条数据
     result = cursor.fetchall()
@@ -19,7 +19,7 @@ def database_getuserrole(connection, cursor, username):
 
 
 # 查询用户的权限
-def database_getuserpermission(connection, cursor, username):
+def database_getuserpermission(connection, cursor, userName):
     lock.acquire()
     # 初始化权限列表
     userpermission = {'起草合同': 0, '会签合同': 0, '定稿合同': 0, '审批合同': 0, '签订合同': 0,
@@ -30,7 +30,7 @@ def database_getuserpermission(connection, cursor, username):
     # 获取用户的角色列表
     # 执行数据查询
     sql = "select role.name AS roleName from user,role,rights where rights.rol_id=role.id and rights.use_id=user.id " \
-          "and user.name='" + username + "'"
+          "and user.name='" + userName + "'"
     cursor.execute(sql)
     # 获取数据库单条数据
     result_role = cursor.fetchall()

@@ -113,8 +113,9 @@ def oneset(username):
     else:
         message = -1
         if request.method == 'POST':
+            username = session.get('username')
             newpass = request.form.get('password')
-            message = mysql_member.database_changememberpassword(connection, cursor, username, newpass)
+            message = mysql_member.database_changememberpassword(connection, cursor, username, newpass, username)
         return render_template('one_set.html', message=message, username=username)
 
 
@@ -129,16 +130,17 @@ def index():
         ruser = request.form.get('ruser')
         psw1 = request.form.get('psw1')
         psw2 = request.form.get('psw2')
+        username = session.get('username')
         # 登陆界面
         if iuser and psw:
-            message = mysql_login.database_login(connection, cursor, iuser, psw)
+            message = mysql_login.database_login(connection, cursor, iuser, psw, username)
             if message == 4:
                 return redirect(url_for('set_session', username=iuser))
             else:
                 return render_template('index.html', message=message)
         # 注册界面
         if ruser and psw1 and psw2:
-            message = mysql_login.database_register(connection, cursor, ruser, psw1)
+            message = mysql_login.database_register(connection, cursor, ruser, psw1, username)
             return render_template('index.html', message=message)
     # 检测session是否存在“username”项
     if "username" not in session:
@@ -158,7 +160,7 @@ def main():
     # 如果登录，就前往页面
     else:
         username = session.get('username')
-        return render_template('main.html', username=username, permission_list = session)
+        return render_template('main.html', username=username, permission_list=session)
 
 
 # 起草合同(已完成)
@@ -173,15 +175,15 @@ def qicao():
         if session.get('起草合同'):
             # 获取请求
             message = -1
+            username = session.get('username')
             if request.method == 'POST':
                 name = request.form.get('name')
                 client = request.form.get('client')
                 start = request.form.get('start')
                 end = request.form.get('end')
                 info = request.form.get('info')
-                username = session.get('username')
                 message = mysql_qicao.database_qicao(connection, cursor, name, client, start, end, info, username)
-            customer_list = mysql_customer.database_customerlist(connection, cursor)
+            customer_list = mysql_customer.database_customerlist(connection, cursor, username)
             return render_template('qicao.html', message=message, customer_list=customer_list)
         # 无权限
         else:
@@ -292,11 +294,11 @@ def dinggao(contractName):
         # 有权限
         if session.get('定稿合同'):
             message = -1
+            username = session.get('username')
             if request.method == 'POST':
                 info = request.form.get('info')
-                userName = session.get('username')
-                message = mysql_dinggao.database_dinggao(connection, cursor, contractName, userName, info)
-            contract = mysql_contract.database_getcontractinfo(connection, cursor, contractName)
+                message = mysql_dinggao.database_dinggao(connection, cursor, contractName, username, info)
+            contract = mysql_contract.database_getcontractinfo(connection, cursor, contractName, username)
             return render_template('dinggao.html', contractName=contractName, message=message, contract=contract)
         # 无权限
         else:
@@ -355,7 +357,6 @@ def shenpi(contractName):
                 info = request.form.get('info')
                 userName = session.get('username')
                 message = mysql_shenpi.database_shenpi(connection, cursor, contractName, userName, state, info)
-            #contract = mysql_contract.database_getcontractinfo(connection, cursor, contractName)
             return render_template('shenpi.html', contractName=contractName, message=message)
         # 无权限
         else:
@@ -409,11 +410,11 @@ def qianding(contractName):
         # 有权限
         if session.get('签订合同'):
             message = -1
+            username = session.get('username')
             if request.method == 'POST':
                 info = request.form.get('info')
-                userName = session.get('username')
-                message = mysql_qianding.database_qianding(connection, cursor, contractName, userName, info)
-            contract = mysql_contract.database_getcontractinfo(connection, cursor, contractName)
+                message = mysql_qianding.database_qianding(connection, cursor, contractName, username, info)
+            contract = mysql_contract.database_getcontractinfo(connection, cursor, contractName, username)
             return render_template('qianding.html', contractName=contractName, message=message, contract=contract)
         # 无权限
         else:
@@ -430,7 +431,8 @@ def daifenpei():
     else:
         # 有权限
         if session.get('分配会签') or session.get('分配审批') or session.get('分配签订'):
-            constract_list = mysql_fenpei.database_daifenpei(connection, cursor)
+            username = session.get('username')
+            constract_list = mysql_fenpei.database_daifenpei(connection, cursor, username)
             return render_template('daifenpei.html', constract_list=constract_list)
         # 无权限
         else:
@@ -448,10 +450,11 @@ def fenpeihuiqian(constractName):
         # 有权限
         if session.get('分配会签'):
             message = -1
-            user_list = mysql_member.database_memberlist(connection, cursor)
+            username = session.get('username')
+            user_list = mysql_member.database_memberlist(connection, cursor, username)
             if request.method == 'POST':
                 huiqian_list = request.form.getlist('huiqian')
-                message = mysql_fenpei.database_fenpeihuiqian(connection, cursor, constractName, huiqian_list)
+                message = mysql_fenpei.database_fenpeihuiqian(connection, cursor, constractName, huiqian_list, username)
             return render_template('fenpeihuiqian.html', user_list=user_list, message=message,
                                    constractName=constractName)
         # 无权限
@@ -470,10 +473,11 @@ def fenpeishenpi(constractName):
         # 有权限
         if session.get('分配审批'):
             message = -1
-            user_list = mysql_member.database_memberlist(connection, cursor)
+            username = session.get('username')
+            user_list = mysql_member.database_memberlist(connection, cursor, username)
             if request.method == 'POST':
                 huiqian_list = request.form.getlist('shenpi')
-                message = mysql_fenpei.database_fenpeishenpi(connection, cursor, constractName, huiqian_list)
+                message = mysql_fenpei.database_fenpeishenpi(connection, cursor, constractName, huiqian_list, username)
             return render_template('fenpeishenpi.html', user_list=user_list, message=message,
                                    constractName=constractName)
         # 无权限
@@ -492,10 +496,12 @@ def fenpeiqianding(constractName):
         # 有权限
         if session.get('分配签订'):
             message = -1
-            user_list = mysql_member.database_memberlist(connection, cursor)
+            username = session.get('username')
+            user_list = mysql_member.database_memberlist(connection, cursor, username)
             if request.method == 'POST':
                 huiqian_list = request.form.getlist('qianding')
-                message = mysql_fenpei.database_fenpeiqianding(connection, cursor, constractName, huiqian_list)
+                message = mysql_fenpei.database_fenpeiqianding(connection, cursor, constractName, huiqian_list,
+                                                               username)
             return render_template('fenpeiqianding.html', user_list=user_list, message=message,
                                    constractName=constractName)
         # 无权限
@@ -548,7 +554,8 @@ def role():
     else:
         # 校验权限
         if session.get('查询角色'):
-            role_list = mysql_role.database_rolelist(connection, cursor)
+            username = session.get('username')
+            role_list = mysql_role.database_rolelist(connection, cursor, username)
             return render_template('role.html', role_list=role_list)
         else:
             return redirect(url_for('nopermission'))
@@ -605,11 +612,12 @@ def memberedit(change_member):
         # 有权限
         if session.get('编辑用户'):
             message = -1
+            username = session.get('username')
             if request.method == 'POST':
                 uname = request.form.get('name')
                 urole = request.form.getlist('status')
-                message = mysql_member.database_editmember(connection, cursor, uname, urole)
-            role_list = mysql_role.database_rolelist(connection, cursor)
+                message = mysql_member.database_editmember(connection, cursor, uname, urole, username)
+            role_list = mysql_role.database_rolelist(connection, cursor, username)
             return render_template('member-edit.html', role_list=role_list, change_member=change_member,
                                    message=message)
         # 无权限
@@ -628,10 +636,11 @@ def memberpassword(membername):
         # 有权限
         if session.get('编辑用户'):
             message = -1
+            username = session.get('username')
             if request.method == 'POST':
                 # 登录信息
                 newpass = request.form.get('newpass')
-                message = mysql_member.database_changememberpassword(connection, cursor, membername, newpass)
+                message = mysql_member.database_changememberpassword(connection, cursor, membername, newpass, username)
             return render_template('member-password.html', message=message, membername=membername)
         # 无权限
         else:
@@ -647,7 +656,8 @@ def memberlist():
     # 如果登录，就前往页面
     else:
         if session.get('查询用户'):
-            member_list = mysql_member.database_memberlist(connection, cursor)
+            username = session.get('username')
+            member_list = mysql_member.database_memberlist(connection, cursor, username)
             return render_template('member-list.html', member_list=member_list)
         else:
             return redirect(url_for('nopermission'))
@@ -664,8 +674,9 @@ def memberdelete(delete_member):
         # 校验权限
         # 有权限
         if session.get('删除用户'):
-            message = mysql_member.database_deletemember(connection, cursor, delete_member)
-            member_list = mysql_member.database_memberlist(connection, cursor)
+            username = session.get('username')
+            message = mysql_member.database_deletemember(connection, cursor, delete_member, username)
+            member_list = mysql_member.database_memberlist(connection, cursor, username)
             return render_template('member-list.html', member_list=member_list, message=message)
         # 无权限
         else:
@@ -704,6 +715,7 @@ def logdelete():
         # 无权限
         else:
             return redirect(url_for('nopermission'))
+
 
 # 查询客户
 @app.route('/customer-list', methods=['GET', 'POST'])
