@@ -128,7 +128,7 @@ def database_deletemember(connection, cursor, uname, userName):
 
 
 # 添加新用户
-def addmember(connection, cursor, userName, password):
+def database_addmember(connection, cursor, userName, password):
     lock.acquire()
     # 执行数据查询,查询是否重名
     sql = "SELECT password " + "FROM user" + " WHERE name='" + userName + "'"

@@ -597,7 +597,7 @@ def memberadd():
             if request.method == 'POST':
                 userName = request.form.get('username')
                 password = request.form.get('password')
-                message = mysql_member.addmember(connection, cursor, userName, password)
+                message = mysql_member.database_addmember(connection, cursor, userName, password)
             return render_template('member-add.html', message=message)
         # 无权限
         else:
@@ -758,7 +758,17 @@ def customeradd():
         # 校验权限
         # 有权限
         if session.get('新增客户'):
-            return render_template('customer-add.html')
+            message = -1
+            if request.method == 'POST':
+                name = request.form.get('name')
+                phone = request.form.get('phone')
+                address = request.form.get('address')
+                fax = request.form.get('fax')
+                code = request.form.get('code')
+                bankname = request.form.get('bankname')
+                bankaccount = request.form.get('bankaccount')
+                message = mysql_customer.database_addcustomer(connection, cursor, name, address, phone, fax, code, bankname, bankaccount)
+            return render_template('customer-add.html', message=message)
         # 无权限
         else:
             return redirect(url_for('nopermission'))
