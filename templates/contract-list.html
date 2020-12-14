@@ -53,16 +53,16 @@
                                     <th>操作</th></tr>
                                 </thead>
                                 <tbody >
-                                 {% for customer in customer_list %}
+                                 {% for contract in contract_list %}
                                       <tr>
-                                        <td>{{ customer['customer_name'] }}</td>
-                                        <td>{{ customer['customer_name'] }}</td>
-                                        <td>{{ customer['roleName'] }}</td>
-                                          <td>{{ customer['roleName'] }}</td>
-                                          <td>{{ customer['roleName'] }}</td>
+                                        <td>{{ contract['contractName'] }}</td>
+                                        <td>{{ contract['contractCus'] }}</td>
+                                        <td>{{ contract['contractBeg'] }}</td>
+                                          <td>{{ contract['contractEnd'] }}</td>
+                                          <td>{{ contract['contractCon'] }}</td>
 
                                           <td class="td-manage">
-                                          <a title="编辑"  onclick="xadmin.open('编辑','http://127.0.0.1:5000/contract-edit/{{ contract['cuntract_name'] }}',900,600)" href="javascript:;">
+                                          <a title="编辑"  onclick="xadmin.open('编辑','http://127.0.0.1:5000/contract-edit/{{ contract['contractName'] }}',900,600)" href="javascript:;">
                                             <i class="layui-icon">&#xe642;</i>
                                           </a>
                                           <a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">

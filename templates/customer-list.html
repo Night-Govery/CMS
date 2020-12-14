@@ -49,7 +49,7 @@
                                     <th>手机</th>
                                     <th>地址</th>
                                     <th>传真</th>
-                                    <th>邮箱</th>
+                                    <th>邮编</th>
                                     <th>银行名称</th>
                                     <th>银行账号</th>
                                     <th>操作</th></tr>
@@ -57,16 +57,16 @@
                                 <tbody >
                                  {% for customer in customer_list %}
                                       <tr>
-                                        <td>{{ customer['customer_name'] }}</td>
-                                        <td>{{ customer['customer_name'] }}</td>
-                                        <td>{{ customer['roleName'] }}</td>
-                                          <td>{{ customer['roleName'] }}</td>
-                                          <td>{{ customer['roleName'] }}</td>
-                                          <td>{{ customer['roleName'] }}</td>
-                                          <td>{{ customer['roleName'] }}</td>
+                                        <td>{{ customer['customerName'] }}</td>
+                                        <td>{{ customer['customerTel'] }}</td>
+                                        <td>{{ customer['customerAddress'] }}</td>
+                                          <td>{{ customer['customerFax'] }}</td>
+                                          <td>{{ customer['customerCode'] }}</td>
+                                          <td>{{ customer['customerBank'] }}</td>
+                                          <td>{{ customer['customerAccount'] }}</td>
 
                                           <td class="td-manage">
-                                          <a title="编辑"  onclick="xadmin.open('编辑','http://127.0.0.1:5000/customer-edit/{{ member['customer_name'] }}',900,600)" href="javascript:;">
+                                          <a title="编辑"  onclick="xadmin.open('编辑','http://127.0.0.1:5000/customer-edit/{{ member['customerName'] }}',900,600)" href="javascript:;">
                                             <i class="layui-icon">&#xe642;</i>
                                           </a>
                                           <a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">

@@ -785,7 +785,16 @@ def customeredit(customerName):
         # 校验权限
         # 有权限
         if session.get('编辑客户'):
-            return render_template('customer-edit.html', customerName=customerName)
+            message = -1
+            if request.method == 'POST':
+                phone = request.form.get('phone')
+                address = request.form.get('address')
+                fax = request.form.get('fax')
+                code = request.form.get('code')
+                bankname = request.form.get('bankname')
+                bankaccount = request.form.get('bankaccount')
+                message = mysql_customer.database_editcustomer(connection, cursor, address, phone, fax, code, bankname, bankaccount)
+            return render_template('customer-edit.html', customerName=customerName, message=message)
         # 无权限
         else:
             return redirect(url_for('nopermission'))
