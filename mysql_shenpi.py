@@ -52,11 +52,18 @@ def database_shenpi(connection, cursor, name, userName, state, yijian):
             cursor.execute(sql)
             # 提交数据
             connection.commit()
-            # 更新数据
-            sql = "UPDATE contract_state SET type='4',time='" + timenum + "' WHERE contract_state.con_id=(SELECT id FROM contract WHERE name='" + name + "') "
+            # 执行数据查询,查询是否全部审批
+            sql = "SELECT use_id FROM contract_process WHERE contract_process.con_id=(SELECT id FROM contract WHERE name='" + name + "') and contract_process.type=2 and contract_process.state=0"
             cursor.execute(sql)
-            # 提交数据
-            connection.commit()
+            # 获取数据库单条数据
+            result = cursor.fetchone()
+            # 全部会签完毕
+            if not result:
+                # 更新数据
+                sql = "UPDATE contract_state SET type='4', time='" + timenum + "' WHERE contract_state.con_id=(SELECT id FROM contract WHERE name='" + name + "') and contract_state.type=3"
+                cursor.execute(sql)
+                # 提交数据
+                connection.commit()
         elif state == '2':
             # 更新数据
             sql = "UPDATE contract_process SET content='" + yijian + "',state='" + state + "',time='" + timenum + "' WHERE contract_process.con_id=(SELECT id FROM contract WHERE name='" + name + "') and contract_process.use_id=(SELECT id FROM user WHERE name='" + userName + "') and contract_process.type=2"

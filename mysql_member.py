@@ -68,7 +68,8 @@ def database_changememberpassword(connection, cursor, userName, password):
 # 删除用户
 def database_deletemember(connection, cursor, userName):
     lock.acquire()
-    # 清楚用户未会签以及未审批操作
+    # 清除用户未会签以及未审批操作
+
     # 删除用户及相关内容
     sql = "DELETE FROM rights WHERE rights.use_id=(SELECT id FROM user WHERE name ='" + userName + "')"
     cursor.execute(sql)
