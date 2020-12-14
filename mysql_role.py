@@ -72,6 +72,8 @@ def database_deleterole(connection, cursor, roleName, userName):
     # 删除角色及相关内容
     sql = "DELETE FROM role_functions WHERE role_functions.rol_id=(SELECT id FROM role WHERE name ='" + roleName + "')"
     cursor.execute(sql)
+    sql = "DELETE FROM rights WHERE rights.rol_id=(SELECT id FROM role WHERE name ='" + roleName + "')"
+    cursor.execute(sql)
     sql = "DELETE FROM role WHERE name ='" + roleName + "'"
     cursor.execute(sql)
     # 提交数据
@@ -84,7 +86,18 @@ def database_deleterole(connection, cursor, roleName, userName):
 def database_addrole(connection, cursor, roleName, functionName, userName):
     lock.acquire()
     # 分两步，先查询是否有重名，有返回0，没有就根据传入的权限列表创建新的角色
-    sql = "先查询是否有重名，有返回0，没有就根据传入的权限列表创建新的角色"
+    # 校验是否有重名角色
+    sql = "SELECT id FROM role WHERE name='" + roleName + "'"
+    cursor.execute(sql)
+    # 获取数据库单条数据
+    result = cursor.fetchone()
+    # 角色名重复
+    if result:
+        lock.release()
+        return 0
+    # 无重复
+    else:
+        sql = "INSERT INTO role "
     cursor.execute(sql)
     # 提交数据
     connection.commit()

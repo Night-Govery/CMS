@@ -69,7 +69,43 @@ def database_changememberpassword(connection, cursor, uname, password, userName)
 def database_deletemember(connection, cursor, uname, userName):
     lock.acquire()
     # 清除用户未会签以及未审批操作
-
+    # sql = "DELETE FROM contract_process WHERE contract_process.use_id=(SELECT id FROM user WHERE name ='" + uname + "') and contract_process.state=0"
+    # cursor.execute(sql)
+    # # 提交数据
+    # connection.commit()
+    # 对用户已进行操作回滚状态
+    sql = "UPDATE contract_state,contract_process SET contract_state.type=1 WHERE contract_state.con_id=contract_process.con_id and contract_process.use_id=(SELECT id FROM user WHERE name='" + uname + "') and contract_process.type=1 and contract_state.type<5"
+    cursor.execute(sql)
+    connection.commit()
+    sql = "UPDATE contract_state,contract_process SET contract_state.type=3 WHERE contract_state.con_id=contract_process.con_id and contract_process.use_id=(SELECT id FROM user WHERE name='" + uname + "') and contract_process.type=2 and contract_state.type<5"
+    cursor.execute(sql)
+    connection.commit()
+    # sql = "UPDATE contract_state SET type=4 WHERE con_id=contract_process.con_id and contract_process.use_id=(SELECT id FROM user WHERE name='" + uname + "') and contract_process.type=3"
+    # cursor.execute(sql)
+    # connection.commit()
+    #sql = "SELECT use_id FROM contract_process WHERE contract_process.type=(SELECT type FROM contract_process WHERE contract_process.use_id=(SELECT id FROM user WHERE name='" + uname + "')) and contract_process.con_id=(SELECT con_id FROM contract_process WHERE contract_process.use_id=(SELECT id FROM user WHERE name='" + uname + "')) and contract_process.use_id!=(SELECT id FROM user WHERE name='" + uname + "')"
+    # sql = "SELECT DISTINCT use_id FROM contract_process WHERE contract_process.type in (SELECT type FROM contract_process WHERE contract_process.use_id=(SELECT id FROM user WHERE name='" + uname + "')) and contract_process.con_id in (SELECT con_id FROM contract_process WHERE contract_process.use_id=(SELECT id FROM user WHERE name='" + uname + "')) and contract_process.use_id!=(SELECT id FROM user WHERE name='" + uname + "');"
+    # cursor.execute(sql)
+    # # 获取数据库单条数据yizuoweizuo yiren duoren
+    # result = cursor.fetchone()
+    # # 用户名重复
+    # if result:
+    #     lock.release()
+    #     return 2
+    # # 注册成功
+    # else:
+    #     print(sql)
+    # SELECT
+    # DISTINCT
+    # use_id
+    # FROM
+    # contract_process
+    # WHERE
+    # contract_process.type in (SELECT
+    #                           type FROM contract_process WHERE contract_process.use_id=(SELECT id FROM user WHERE name='test02')) and contract_process.con_id in (
+    #     SELECT
+    #     con_id FROM contract_process WHERE contract_process.use_id=(SELECT id FROM user WHERE name='test02')) and contract_process.use_id != (
+    #     SELECT id FROM user WHERE name='test02');
     # 删除用户及相关内容
     sql = "DELETE FROM rights WHERE rights.use_id=(SELECT id FROM user WHERE name ='" + uname + "')"
     cursor.execute(sql)
@@ -112,7 +148,6 @@ def addmember(connection, cursor, userName, password):
         connection.commit()
         # 插入数据
         sql = "INSERT INTO rights (use_id,rol_id)VALUES((SELECT id FROM user WHERE name='" + userName + "'),'6');"
-        print(sql)
         cursor.execute(sql)
         # 提交数据
         connection.commit()
