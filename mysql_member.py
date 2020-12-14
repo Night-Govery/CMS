@@ -71,6 +71,15 @@ def database_deletemember(connection, cursor, userName):
     # 删除用户及相关内容
     sql = "DELETE FROM rights WHERE rights.use_id=(SELECT id FROM user WHERE name ='" + userName + "')"
     cursor.execute(sql)
+    # 提交数据
+    connection.commit()
+    sql = "DELETE FROM contract_process WHERE contract_process.use_id=(SELECT id FROM user WHERE name ='" + userName + "')"
+    cursor.execute(sql)
+    # 提交数据
+    connection.commit()
+    sql = "DELETE FROM contract WHERE contract.use_id=(SELECT id FROM user WHERE name ='" + userName + "')"
+    cursor.execute(sql)
+    # 提交数据
     connection.commit()
     sql = "DELETE FROM user WHERE name ='" + userName + "'"
     cursor.execute(sql)
