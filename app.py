@@ -569,7 +569,8 @@ def roleadd():
             userName = session.get('username')
             if request.method == 'POST':
                 roleName = request.form.get('roleName')
-                function_list = request.form.getlist('function_list')
+                function_list = request.form.getlist('addrole')
+                print(function_list)
                 description = request.form.get('description')
                 message = mysql_role.database_addrole(connection, cursor, roleName, function_list, description, userName)
                 if message:
@@ -598,7 +599,7 @@ def roleedit(roleName):
             userName = session.get('username')
             if request.method == 'POST':
                 roleName = request.form.get('roleName')
-                function_list = request.form.getlist('function_list')
+                function_list = request.form.getlist('editrole')
                 description = request.form.get('description')
                 message = mysql_role.database_editrole(connection, cursor, roleName, function_list, description, userName)
                 if message:
