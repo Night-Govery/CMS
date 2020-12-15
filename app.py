@@ -795,7 +795,8 @@ def customeredit(customerName, phone, address, fax, code, bankname, bankaccount)
                 code = request.form.get('code')
                 bankname = request.form.get('bankname')
                 bankaccount = request.form.get('bankaccount')
-                message = mysql_customer.database_editcustomer(connection, cursor, address, phone, fax, code, bankname,
+                message = mysql_customer.database_editcustomer(connection, cursor, customerName, address, phone, fax,
+                                                               code, bankname,
                                                                bankaccount)
             return render_template('customer-edit.html', customerName=customerName, message=message, phone=phone,
                                    address=address, fax=fax, code=code, bankname=bankname, bankaccount=bankaccount)
@@ -819,6 +820,103 @@ def customerdelete(customerName):
             message = mysql_customer.database_deletecustomer(connection, cursor, customerName, userName)
             customer_list = mysql_customer.database_customerlist(connection, cursor, userName)
             return render_template('customer-list.html', customer_list=customer_list, message=message)
+        # 无权限
+        else:
+            return redirect(url_for('nopermission'))
+
+
+# 查询合同
+@app.route('/contract-list', methods=['GET', 'POST'])
+def contractlist():
+    # 如果没有登录，就返回登录页
+    if "username" not in session:
+        return redirect(url_for('index'))
+    # 如果登录，就前往页面
+    else:
+        # 校验权限
+        # 有权限
+        if session.get('查询客户'):
+            userName = session.get('username')
+            customer_list = mysql_customer.database_customerlist(connection, cursor, userName)
+            return render_template('contract-list.html', customer_list=customer_list)
+        # 无权限
+        else:
+            return redirect(url_for('nopermission'))
+
+
+# 新增合同
+@app.route('/contract-add', methods=['GET', 'POST'])
+def contractadd():
+    # 如果没有登录，就返回登录页
+    if "username" not in session:
+        return redirect(url_for('index'))
+    # 如果登录，就前往页面
+    else:
+        # 校验权限
+        # 有权限
+        if session.get('新增客户'):
+            # 获取请求
+            message = -1
+            username = session.get('username')
+            if request.method == 'POST':
+                name = request.form.get('name')
+                client = request.form.get('client')
+                start = request.form.get('start')
+                end = request.form.get('end')
+                info = request.form.get('info')
+                message = mysql_qicao.database_qicao(connection, cursor, name, client, start, end, info, username)
+            customer_list = mysql_customer.database_customerlist(connection, cursor, username)
+            return render_template('contract-add.html', message=message, customer_list=customer_list)
+        # 无权限
+        else:
+            return redirect(url_for('nopermission'))
+
+
+# 编辑合同
+@app.route('/contract-edit/<customerName>,<phone>,<address>,<fax>,<code>,<bankname>,<bankaccount>',
+           methods=['GET', 'POST'])
+def contractedit(customerName, phone, address, fax, code, bankname, bankaccount):
+    # 如果没有登录，就返回登录页
+    if "username" not in session:
+        return redirect(url_for('index'))
+    # 如果登录，就前往页面
+    else:
+        # 校验权限
+        # 有权限
+        if session.get('编辑客户'):
+            message = -1
+            if request.method == 'POST':
+                phone = request.form.get('phone')
+                address = request.form.get('address')
+                fax = request.form.get('fax')
+                code = request.form.get('code')
+                bankname = request.form.get('bankname')
+                bankaccount = request.form.get('bankaccount')
+                message = mysql_customer.database_editcustomer(connection, cursor, customerName, address, phone, fax,
+                                                               code, bankname,
+                                                               bankaccount)
+            return render_template('contract-edit.html', customerName=customerName, message=message, phone=phone,
+                                   address=address, fax=fax, code=code, bankname=bankname, bankaccount=bankaccount)
+        # 无权限
+        else:
+            return redirect(url_for('nopermission'))
+
+
+# 删除合同
+@app.route('/contract-delete/<customerName>', methods=['GET', 'POST'])
+def contractdelete(customerName):
+    # 如果没有登录，就返回登录页
+    if "username" not in session:
+        return redirect(url_for('index'))
+    # 如果登录，就前往页面
+    else:
+        # 校验权限
+        # 有权限
+        if session.get('删除客户'):
+            userName = session.get('username')
+            message = mysql_customer.database_deletecustomer(connection, cursor, customerName, userName)
+            customer_list = mysql_customer.database_customerlist(connection, cursor, userName)
+            return render_template('contract-list.html', customer_list=customer_list, message=message)
         # 无权限
         else:
             return redirect(url_for('nopermission'))
