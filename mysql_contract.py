@@ -44,3 +44,6 @@ def database_deletecontract(connection, cursor, name, userName):
     lock.release()
     return 1
 
+
+def database_contractlist(connection, cursor, userName):
+    return None

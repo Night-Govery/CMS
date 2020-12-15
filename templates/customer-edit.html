@@ -42,7 +42,7 @@
                             <span class='x-red'>*</span>手机
                         </label>
                         <div class="layui-input-block">
-                            <input type="text" name="phone" autocomplete="off" value="{{ phone }}"
+                            <input type="text" name="phone" autocomplete="off" value="{{ customer['phone'] }}"
                                    class="layui-input">
                         </div>
                     </div>
@@ -51,7 +51,7 @@
                             <span class='x-red'>*</span>地址
                         </label>
                         <div class="layui-input-block">
-                            <input type="text" name="address" autocomplete="off" value="{{ address }}"
+                            <input type="text" name="address" autocomplete="off" value="{{ customer['address'] }}"
                                    class="layui-input">
                         </div>
                     </div>
@@ -60,7 +60,7 @@
                             <span class='x-red'>*</span>传真
                         </label>
                         <div class="layui-input-block">
-                            <input type="text" name="fax" autocomplete="off" value="{{ fax }}"
+                            <input type="text" name="fax" autocomplete="off" value="{{ customer['fax'] }}"
                                    class="layui-input">
                         </div>
                     </div>
@@ -69,7 +69,7 @@
                             <span class='x-red'>*</span>邮编
                         </label>
                         <div class="layui-input-block">
-                            <input type="text" name="email" autocomplete="off" value="{{ code }}"
+                            <input type="text" name="email" autocomplete="off" value="{{ customer['code'] }}"
                                    class="layui-input">
                         </div>
                     </div>
@@ -78,7 +78,7 @@
                             <span class='x-red'>*</span>银行名称
                         </label>
                         <div class="layui-input-block">
-                            <input type="text" name="bankname" autocomplete="off" value="{{ bankname }}"
+                            <input type="text" name="bankname" autocomplete="off" value="{{ customer['bankname'] }}"
                                    class="layui-input">
                         </div>
                     </div>
@@ -87,7 +87,7 @@
                             <span class='x-red'>*</span>银行账号
                         </label>
                         <div class="layui-input-block">
-                            <input type="text" name="bankaccount" autocomplete="off" value="{{ bankaccount }}"
+                            <input type="text" name="bankaccount" autocomplete="off" value="{{ customer['bankaccount'] }}"
                                    class="layui-input">
                         </div>
                     </div>
@@ -99,8 +99,6 @@
                     <div style="height:100px;"></div>
                 </div>
             </div>
-
-        </div>
     </form>
 </div>
 
