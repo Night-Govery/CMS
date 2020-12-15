@@ -65,25 +65,27 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>
-                                登录成功
-                            </td>
-                            <td>
-                                1
-                            </td>
-                            <td>
-                                admin
-                            </td>
-                            <td>
-                                2018-01-01 11:11:42
-                            </td>
-                            <td class="td-manage">
-                                <a title="删除" href="javascript:;" onclick="log_del(this,'1')" style="text-decoration:none">
-                                    <i class="layui-icon"></i>
-                                </a>
-                            </td>
-                        </tr>
+                        {% for log in log_list %}
+                            <tr>
+                                <td>
+                                    {{ log['log_id'] }}
+                                </td>
+                                <td>
+                                    {{ log['userName'] }}
+                                </td>
+                                <td>
+                                    {{ log['logContent'] }}
+                                </td>
+                                <td>
+                                    {{ log['logTime'] }}
+                                </td>
+                                <td class="td-manage">
+                                    <a title="删除" href="javascript:;" onclick="log_del(this,'1')" style="text-decoration:none">
+                                        <i class="layui-icon"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
                         </tbody>
 
                     </table>
