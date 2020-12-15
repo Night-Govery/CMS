@@ -36,9 +36,11 @@
                                 </div>
                             </form>
                         </div>
+                        {% if permission_list['新增用户'] %}
                         <div class="layui-card-header">
                             <button class="layui-btn" onclick="xadmin.open('添加用户','http://127.0.0.1:5000/member-add',600,400)"><i class="layui-icon"></i>添加</button>
                         </div>
+                        {% endif %}
                         <div class="layui-card-body layui-table-body layui-table-main">
                             <table class="layui-table layui-form">
                                 <thead >
@@ -59,15 +61,19 @@
                                             {% endfor %}
                                         </td>
                                         <td class="td-manage">
+                                            {% if permission_list['编辑用户'] %}
                                           <a title="编辑"  onclick="xadmin.open('编辑','http://127.0.0.1:5000/member-edit/{{ member['userName'] }}',600,400)" href="javascript:;">
                                             <i class="layui-icon">&#xe642;</i>
                                           </a>
-                                          <a onclick="xadmin.open('修改密码','http://127.0.0.1:5000/member-password/{{ member['userName'] }}',600,400)" title="修改密码" href="javascript:;">
+                                            <a onclick="xadmin.open('修改密码','http://127.0.0.1:5000/member-password/{{ member['userName'] }}',600,400)" title="修改密码" href="javascript:;">
                                             <i class="layui-icon">&#xe631;</i>
                                           </a>
+                                            {% endif %}
+                                            {% if permission_list['删除用户'] %}
                                           <a title="删除" onclick="member_del(this,'{{ member['userName'] }}')" href="javascript:;">
                                             <i class="layui-icon">&#xe640;</i>
                                           </a>
+                                            {% endif %}
                                         </td>
                                       </tr>
                                 {% endfor %}

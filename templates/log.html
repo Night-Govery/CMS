@@ -80,9 +80,11 @@
                                     {{ log['logTime'] }}
                                 </td>
                                 <td class="td-manage">
+                                    {% if permission_list['删除日志'] %}
                                     <a title="删除" href="javascript:;" onclick="log_del(this,'{{ log['log_id'] }}')" style="text-decoration:none">
                                         <i class="layui-icon"></i>
                                     </a>
+                                    {% endif %}
                                 </td>
                             </tr>
                         {% endfor %}

@@ -153,16 +153,20 @@
                             <cite>查询统计</cite>
                             <i class="iconfont nav_right">&#xe697;</i></a>
                         <ul class="sub-menu">
+                            {% if permission_list['查询合同信息'] %}
                             <li>
                                 <a onclick="xadmin.add_tab('合同信息查询','http://127.0.0.1:5000/search-contract')">
                                     <i class="iconfont">&#xe6a7;</i>
                                     <cite>合同信息查询</cite></a>
                             </li>
+                            {% endif %}
+                            {% if permission_list['查询合同流程'] %}
                             <li>
                                 <a onclick="xadmin.add_tab('合同流程查询','http://127.0.0.1:5000/search-process')">
                                     <i class="iconfont">&#xe6a7;</i>
                                     <cite>合同流程查询</cite></a>
                             </li>
+                            {% endif %}
                         </ul>
 
 
