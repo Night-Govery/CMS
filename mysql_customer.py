@@ -59,8 +59,11 @@ def database_deletecustomer(connection, cursor, customerName, userName):
 def database_editcustomer(connection, cursor, customerName, address, phone, fax, code, bankname, bankaccount, userName):
     lock.acquire()
     #修改信息
-    sql = "UPDATE customer SET name='" + customerName + "',address='" + address + "',tel='" + phone + "',fax='" + fax + "',code='" + code + "',bank='" + bankname + "',account='" + bankaccount + "' WHERE id=(SELECT id FROM customer AS tempCus WHERE name='" + customerName + "')"
-    print(sql)
+    sql = "SELECT id FROM customer WHERE name ='" + customerName + "'"
+    cursor.execute(sql)
+    connection.commit()
+    result =  cursor.fetchone()
+    sql = "UPDATE customer SET name='" + customerName + "',address='" + address + "',tel='" + phone + "',fax='" + fax + "',code='" + code + "',bank='" + bankname + "',account='" + bankaccount + "' WHERE id='" + str(result['id']) + "'"
     cursor.execute(sql)
     # 提交数据
     connection.commit()
