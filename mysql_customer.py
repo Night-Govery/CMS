@@ -29,7 +29,7 @@ def database_addcustomer(connection, cursor, customerName, customerAddress, cust
         return 0
     # 添加成功
     else:
-        sql = "INSERT INTO customer(name,address,tel,fax,cod,bank,account)VALUES('" + customerName + "','" + customerAddress + "','" + customerTel + "','" + customerFax + "','" + customerCose + "','" + customerBank + "','" + customerAccount + "');"
+        sql = "INSERT INTO customer(name,address,tel,fax,code,bank,account)VALUES('" + customerName + "','" + customerAddress + "','" + customerTel + "','" + customerFax + "','" + customerCose + "','" + customerBank + "','" + customerAccount + "');"
         cursor.execute(sql)
         connection.commit()
     lock.release()
@@ -44,4 +44,8 @@ def database_deletecustomer(connection, cursor, customerName, userName):
     # 提交数据
     connection.commit()
     lock.release()
+    return None
+
+
+def database_editcustomer(connection, cursor, address, phone, fax, code, bankname, bankaccount):
     return None

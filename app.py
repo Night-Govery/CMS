@@ -767,7 +767,8 @@ def customeradd():
                 code = request.form.get('code')
                 bankname = request.form.get('bankname')
                 bankaccount = request.form.get('bankaccount')
-                message = mysql_customer.database_addcustomer(connection, cursor, name, address, phone, fax, code, bankname, bankaccount)
+                message = mysql_customer.database_addcustomer(connection, cursor, name, address, phone, fax, code,
+                                                              bankname, bankaccount)
             return render_template('customer-add.html', message=message)
         # 无权限
         else:
@@ -775,8 +776,9 @@ def customeradd():
 
 
 # 编辑客户
-@app.route('/customer-edit/<customerName>', methods=['GET', 'POST'])
-def customeredit(customerName):
+@app.route('/customer-edit/<customerName>,<phone>,<address>,<fax>,<code>,<bankname>,<bankaccount>',
+           methods=['GET', 'POST'])
+def customeredit(customerName, phone, address, fax, code, bankname, bankaccount):
     # 如果没有登录，就返回登录页
     if "username" not in session:
         return redirect(url_for('index'))
@@ -793,8 +795,10 @@ def customeredit(customerName):
                 code = request.form.get('code')
                 bankname = request.form.get('bankname')
                 bankaccount = request.form.get('bankaccount')
-                message = mysql_customer.database_editcustomer(connection, cursor, address, phone, fax, code, bankname, bankaccount)
-            return render_template('customer-edit.html', customerName=customerName, message=message)
+                message = mysql_customer.database_editcustomer(connection, cursor, address, phone, fax, code, bankname,
+                                                               bankaccount)
+            return render_template('customer-edit.html', customerName=customerName, message=message, phone=phone,
+                                   address=address, fax=fax, code=code, bankname=bankname, bankaccount=bankaccount)
         # 无权限
         else:
             return redirect(url_for('nopermission'))

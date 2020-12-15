@@ -66,7 +66,7 @@
                                           <td>{{ customer['customerAccount'] }}</td>
 
                                           <td class="td-manage">
-                                          <a title="编辑"  onclick="xadmin.open('编辑','http://127.0.0.1:5000/customer-edit/{{ member['customerName'] }}',900,600)" href="javascript:;">
+                                          <a title="编辑"  onclick="xadmin.open('编辑','http://127.0.0.1:5000/customer-edit/{{ customer['customerName'] }},{{ customer['customerTel'] }},{{ customer['customerAddress'] }},{{ customer['customerFax'] }},{{ customer['customerCode'] }},{{ customer['customerBank'] }},{{ customer['customerAccount'] }}',900,600)" href="javascript:;">
                                             <i class="layui-icon">&#xe642;</i>
                                           </a>
                                           <a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
