@@ -58,7 +58,7 @@ def database_deletecustomer(connection, cursor, customerName, userName):
     # 提交数据
     connection.commit()
     lock.release()
-    return None
+    return 1
 
 
 def database_editcustomer(connection, cursor, customerName, address, phone, fax, code, bankname, bankaccount, userName):
@@ -69,7 +69,7 @@ def database_editcustomer(connection, cursor, customerName, address, phone, fax,
     # 提交数据
     connection.commit()
     lock.release()
-    return None
+    return 1
 
 
 
