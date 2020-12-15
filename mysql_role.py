@@ -72,6 +72,7 @@ def database_editrole(connection, cursor, roleName, functionName, description, u
     cursor.execute(sql)
     connection.commit()
     sql = "UPDATE role SET description='" + description + "' WHERE name='" + roleName + ""
+    cursor.execute(sql)
     connection.commit()
     # 插入角色数据
     if functionName['起草合同']:
