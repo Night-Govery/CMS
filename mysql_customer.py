@@ -38,25 +38,20 @@ def database_addcustomer(connection, cursor, customerName, customerAddress, cust
 
 def database_deletecustomer(connection, cursor, customerName, userName):
     lock.acquire()
-    #删除未完成合同
-    #删除合同状态
-    sql = "DELETE FROM contract_state WHERE con_id=(SELECT id FROM contract WHERE use_id=(SELECT id FROM customer AS temp WHERE name ='" + customerName + "'))"
+    # 查询是否有合同
+    sql = "SELECT id FROM contract WHERE cus_id=(SELECT id from customer WHERE name='" + customerName + "')"
     cursor.execute(sql)
-    connection.commit()
-    #删除合同流程
-    sql = "DELETE FROM contract_process WHERE con_id=(SELECT id FROM contract WHERE use_id=(SELECT id FROM customer AS temp WHERE name ='" + customerName + "'))"
-    cursor.execute(sql)
-    connection.commit()
-    # 删除合同
-    sql = "DELETE FROM contract WHERE use_id=(SELECT id FROM customer WHERE name='" + customerName + "')"
-    cursor.execute(sql)
-    # 提交数据
-    connection.commit()
-    # 删除客户
-    sql = "DELETE FROM customer WHERE name='" + customerName + "'"
-    cursor.execute(sql)
-    # 提交数据
-    connection.commit()
+    # 获取数据库单条数据
+    result = cursor.fetchone()
+    if result:
+        lock.release()
+        return 0
+    else:
+        # 删除客户
+        sql = "DELETE FROM customer WHERE name='" + customerName + "'"
+        cursor.execute(sql)
+        # 提交数据
+        connection.commit()
     lock.release()
     return 1
 
@@ -65,11 +60,12 @@ def database_editcustomer(connection, cursor, customerName, address, phone, fax,
     lock.acquire()
     #修改信息
     sql = "UPDATE customer SET name='" + customerName + "',address='" + address + "',tel='" + phone + "',fax='" + fax + "',code='" + code + "',bank='" + bankname + "',account='" + bankaccount + "' WHERE id=(SELECT id FROM customer AS tempCus WHERE name='" + customerName + "')"
+    print(sql)
     cursor.execute(sql)
     # 提交数据
     connection.commit()
     lock.release()
-    return 1
+    return None
 
 
 

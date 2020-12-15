@@ -16,10 +16,11 @@ def database_qicao(connection, cursor, name, client, start, end, info, userName)
     if result:
         lock.release()
         return 0
-    # 无重复
+    # 无重复但日期错误
     elif start > end:
         lock.release()
-        return 0
+        return 2
+    # 无重复
     else:
         # 插入数据
         sql = "INSERT INTO contract (name,cus_id,use_id,beginTime,endTime,content)VALUES('" + name + "',(SELECT id FROM customer WHERE name='" + client + "'),(SELECT id FROM user WHERE name='" + userName + "'),'" + start + "','" + end + "','" + info + "');"

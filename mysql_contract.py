@@ -19,7 +19,6 @@ def database_contractlist(connection, cursor, userName):
     # contractlist = []
     # contractinfo = {'con_id': -1, 'contractName': 'NULL', 'customerName': 'NULL', 'beginTime': 'NULL', 'endTime': 'NULL', 'content': 'NULL', 'contractuseid': 'NULL', 'state': 'NULL'}
     sql = "SELECT contract.id AS contractid, customer.name AS customerName, contract.name AS contractName, contract.beginTime AS beginTime, contract.endTime AS endTime, contract.content AS content, contract.use_id AS contractUserid, contract_state.type AS contractState FROM contract,customer,contract_state WHERE contract.id=contract_state.con_id AND contract.cus_id = customer.id"
-    print(sql)
     cursor.execute(sql)
     result = cursor.fetchall()
     # 提交数据
