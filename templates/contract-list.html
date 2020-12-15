@@ -129,27 +129,7 @@
               //发异步删除数据
               $(obj).parents("tr").remove();
               window.location.href = "http://127.0.0.1:5000/contract-delete/"+id;
-              layer.msg('已删除!',{icon:1,time:1000});
           });
-      }
-
-
-
-      function delAll (argument) {
-        var ids = [];
-
-        // 获取选中的id
-        $('tbody input').each(function(index, el) {
-            if($(this).prop('checked')){
-               ids.push($(this).val())
-            }
-        });
-
-        layer.confirm('确认要删除吗？'+ids.toString(),function(index){
-            //捉到所有被选中的，发异步进行删除
-            layer.msg('删除成功', {icon: 1});
-            $(".layui-form-checked").not('.header').parents('tr').remove();
-        });
       }
     </script>
 <script type="text/javascript">
@@ -161,7 +141,7 @@
                     layer.msg('删除失败！', {icon: 0,time:1000});
                     break;
                 case 1:
-                    layer.msg('删除合同!',{icon:1,time:1000});
+                    layer.msg('删除成功!',{icon:1,time:1000});
                     break;
                 case -1:
                     break;
