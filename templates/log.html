@@ -80,7 +80,7 @@
                                     {{ log['logTime'] }}
                                 </td>
                                 <td class="td-manage">
-                                    <a title="删除" href="javascript:;" onclick="log_del(this,'1')" style="text-decoration:none">
+                                    <a title="删除" href="javascript:;" onclick="log_del(this,'{{ log['log_id'] }}')" style="text-decoration:none">
                                         <i class="layui-icon"></i>
                                     </a>
                                 </td>
@@ -157,26 +157,12 @@ function log_del(obj, id) {
     layer.confirm('确认要删除吗？',
         function(index) {
             //发异步删除数据
-            $(obj).parents("tr").remove();
-            layer.msg('已删除!', {
-                icon: 1,
-                time: 1000
-            });
+             $(obj).parents("tr").remove();
+              window.location.href = "http://127.0.0.1:5000/log/"+id;
+              layer.msg('已删除!',{icon:1,time:1000});
         });
 }
 
-function delAll(argument) {
-
-    var data = tableCheck.getData();
-
-    layer.confirm('确认要删除吗？' + data,
-        function(index) {
-            //捉到所有被选中的，发异步进行删除
-            layer.msg('删除成功', {
-                icon: 1
-            });
-            $(".layui-form-checked").not('.header').parents('tr').remove();
-        });
-}</script>
+</script>
 
 </html>

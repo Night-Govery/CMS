@@ -65,15 +65,21 @@
                                     {{ constract['contractTime'] }}
                                 </td>
                                 <td class="td-status">
+                                    {% if permission_list['分配会签'] %}
                                     <span class="layui-btn layui-btn-normal "
                                                              onclick="xadmin.open('分配会签人','http://127.0.0.1:5000/fenpeihuiqian/{{ constract['contractName'] }}','800','510','1')"
                                                              class="ml-5" style="text-decoration:none"> 分配会签人 </span>
+                                    {% endif %}
+                                    {% if permission_list['分配审批'] %}
                                     <span class="layui-btn layui-btn-normal "
                                                              onclick="xadmin.open('分配审批人','http://127.0.0.1:5000/fenpeishenpi/{{ constract['contractName'] }}','800','510','1')"
                                                              class="ml-5" style="text-decoration:none"> 分配审批人 </span>
+                                    {% endif %}
+                                    {% if permission_list['分配签订'] %}
                                     <span class="layui-btn layui-btn-normal "
                                                              onclick="xadmin.open('分配签订人','http://127.0.0.1:5000/fenpeiqianding/{{ constract['contractName'] }}','800','510','1')"
                                                              class="ml-5" style="text-decoration:none"> 分配签订人 </span>
+                                    {% endif %}
                                 </td>
                             </tr>
                         {% endfor %}

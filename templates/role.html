@@ -36,9 +36,11 @@
                                 </div>
                             </form>
                         </div>
+                        {% if permission_list['新增角色'] %}
                         <div class="layui-card-header">
                             <button class="layui-btn" onclick="xadmin.open('添加角色','http://127.0.0.1:5000/role-add',1000,735)"><i class="layui-icon"></i>添加</button>
                         </div>
+                        {% endif %}
                         <div class="layui-card-body ">
                             <table class="layui-table layui-form">
                               <thead>
@@ -139,11 +141,15 @@
                                         <a onclick="member_stop(this,'10001')" href="javascript:;"  title="启用">
                                           <i class="layui-icon">&#xe601;</i>
                                         </a>
+                                          {% if permission_list['编辑角色'] %}
                                         <a title="编辑"  onclick="xadmin.open('编辑角色','http://127.0.0.1:5000/role-edit/{{ role['roleName'] }}',1000,735)" href="javascript:;">
                                           <i class="layui-icon">&#xe642;</i>
                                         </a>
+                                          {% endif %}
+                                          {% if permission_list['删除角色'] %}
                                         <a title="删除" onclick="member_del(this,'{{ role['roleName'] }}')" href="javascript:;">
                                           <i class="layui-icon">&#xe640;</i>
+                                          {% endif %}
                                         </a>
                                       </td>
                                     </tr>
