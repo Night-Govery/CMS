@@ -728,7 +728,7 @@ def logdelete(log_id):
             return redirect(url_for('nopermission'))
 
 
-# 查询客户
+# 查询客户(已完成)
 @app.route('/customer-list', methods=['GET', 'POST'])
 def customerlist():
     # 如果没有登录，就返回登录页
@@ -747,7 +747,7 @@ def customerlist():
             return redirect(url_for('nopermission'))
 
 
-# 新增客户
+# 新增客户(已完成)
 @app.route('/customer-add', methods=['GET', 'POST'])
 def customeradd():
     # 如果没有登录，就返回登录页
@@ -907,7 +907,7 @@ def contractdelete(customerName):
         # 有权限
         if session.get('管理合同信息'):
             userName = session.get('username')
-            message = mysql_customer.database_deletecustomer(connection, cursor, customerName, userName)
+            message = mysql_contract.database_deletecontract(connection, cursor, customerName, userName)
             customer_list = mysql_customer.database_customerlist(connection, cursor, userName)
             return render_template('contract-list.html', customer_list=customer_list, message=message)
         # 无权限

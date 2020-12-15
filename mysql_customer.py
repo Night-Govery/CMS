@@ -40,11 +40,11 @@ def database_deletecustomer(connection, cursor, customerName, userName):
     lock.acquire()
     #删除未完成合同
     #删除合同状态
-    sql = "DELETE FROM contract_state WHERE id=(SELECT id FROM contract WHERE use_id=(SELECT id FROM customer WHERE name ='" + customerName + "')"
+    sql = "DELETE FROM contract_state WHERE con_id=(SELECT id FROM contract WHERE use_id=(SELECT id FROM customer AS temp WHERE name ='" + customerName + "'))"
     cursor.execute(sql)
     connection.commit()
     #删除合同流程
-    sql = "DELETE FROM contract_process WHERE id=(SELECT id FROM contract WHERE use_id=(SELECT id FROM customer WHERE name ='" + customerName + "')"
+    sql = "DELETE FROM contract_process WHERE con_id=(SELECT id FROM contract WHERE use_id=(SELECT id FROM customer AS temp WHERE name ='" + customerName + "'))"
     cursor.execute(sql)
     connection.commit()
     # 删除合同
@@ -53,7 +53,7 @@ def database_deletecustomer(connection, cursor, customerName, userName):
     # 提交数据
     connection.commit()
     # 删除客户
-    sql = "DELETE FROM customer WHERE id=(SELECT id FROM customer WHERE name='" + customerName + "')"
+    sql = "DELETE FROM customer WHERE name='" + customerName + "'"
     cursor.execute(sql)
     # 提交数据
     connection.commit()
