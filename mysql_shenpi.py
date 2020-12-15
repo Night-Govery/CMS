@@ -82,4 +82,4 @@ def database_shenpi(connection, cursor, name, userName, state, yijian):
         # 提交数据
         connection.commit()
         lock.release()
-        return True
+        return 1

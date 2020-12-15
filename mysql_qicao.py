@@ -17,7 +17,7 @@ def database_qicao(connection, cursor, name, client, start, end, info, userName)
         lock.release()
         return 0
     # 无重复
-    elif start>end:
+    elif start > end:
         lock.release()
         return 0
     else:

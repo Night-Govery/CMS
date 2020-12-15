@@ -346,6 +346,7 @@ def database_getpermissionlist(connection, cursor, userName):
             else:
                 count = count - 1
         if count == 0:
-            temp_userinfo = {'fun_id': a['fun_id'], 'functionsName': a['functionsName'], 'funDescription': a['funDescription']}
+            temp_userinfo = {'fun_id': a['fun_id'], 'functionsName': a['functionsName'],
+                             'funDescription': a['funDescription']}
             permissionlist.append(temp_userinfo)
     return permissionlist

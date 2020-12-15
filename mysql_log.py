@@ -22,4 +22,4 @@ def database_deletelog(connection, cursor, userName, log_id):
     # 提交数据
     connection.commit()
     lock.release()
-    return None
+    return 1

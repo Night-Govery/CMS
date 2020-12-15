@@ -267,7 +267,7 @@ def daidinggao():
             return redirect(url_for('nopermission'))
 
 
-# 已定稿
+# 已定稿（已完成）
 @app.route('/yidinggao', methods=['GET', 'POST'])
 def yidinggao():
     # 如果没有登录，就返回登录页
@@ -307,7 +307,7 @@ def dinggao(contractName):
             return redirect(url_for('nopermission'))
 
 
-# 待审批
+# 待审批（已完成）
 @app.route('/daishenpi', methods=['GET', 'POST'])
 def daishenpi():
     # 如果没有登录，就返回登录页
@@ -325,7 +325,7 @@ def daishenpi():
             return redirect(url_for('nopermission'))
 
 
-# 已审批
+# 已审批（已完成）
 @app.route('/yishenpi', methods=['GET', 'POST'])
 def yishenpi():
     # 如果没有登录，就返回登录页
@@ -343,7 +343,7 @@ def yishenpi():
             return redirect(url_for('nopermission'))
 
 
-# 审批
+# 审批（已完成）
 @app.route('/shenpi/<contractName>', methods=['GET', 'POST'])
 def shenpi(contractName):
     # 如果没有登录，就返回登录页
@@ -365,7 +365,7 @@ def shenpi(contractName):
             return redirect(url_for('nopermission'))
 
 
-# 待签定
+# 待签定（已完成）
 @app.route('/daiqianding', methods=['GET', 'POST'])
 def daiqianding():
     # 如果没有登录，就返回登录页
@@ -383,7 +383,7 @@ def daiqianding():
             return redirect(url_for('nopermission'))
 
 
-# 已签订
+# 已签订（已完成）
 @app.route('/yiqianding', methods=['GET', 'POST'])
 def yiqianding():
     # 如果没有登录，就返回登录页
@@ -401,7 +401,7 @@ def yiqianding():
             return redirect(url_for('nopermission'))
 
 
-# 签订
+# 签订（已完成）
 @app.route('/qianding/<contractName>', methods=['GET', 'POST'])
 def qianding(contractName):
     # 如果没有登录，就返回登录页
@@ -435,7 +435,7 @@ def daifenpei():
         if session.get('分配会签') or session.get('分配审批') or session.get('分配签订'):
             username = session.get('username')
             constract_list = mysql_fenpei.database_daifenpei(connection, cursor, username)
-            return render_template('daifenpei.html', constract_list=constract_list)
+            return render_template('daifenpei.html', constract_list=constract_list, permission_list=session)
         # 无权限
         else:
             return redirect(url_for('nopermission'))
@@ -558,12 +558,12 @@ def role():
         if session.get('查询角色'):
             userName = session.get('username')
             role_list = mysql_role.database_rolelist(connection, cursor, userName)
-            return render_template('role.html', role_list=role_list)
+            return render_template('role.html', role_list=role_list, permission_list=session)
         else:
             return redirect(url_for('nopermission'))
 
 
-# 删除角色
+# 删除角色（已完成）
 @app.route('/role-delete/<roleName>', methods=['GET', 'POST'])
 def roledelete(roleName):
     # 如果没有登录，就返回登录页
@@ -664,12 +664,12 @@ def memberlist():
             message = -1
             userName = session.get('username')
             member_list = mysql_member.database_memberlist(connection, cursor, userName)
-            return render_template('member-list.html', member_list=member_list, message=message)
+            return render_template('member-list.html', member_list=member_list, message=message, permission_list=session)
         else:
             return redirect(url_for('nopermission'))
 
 
-# 删除用户
+# 删除用户（已完成）
 @app.route('/member-delete/<delete_member>', methods=['GET', 'POST'])
 def memberdelete(delete_member):
     # 如果没有登录，就返回登录页
@@ -703,7 +703,7 @@ def log():
             message = -1
             userName = session.get('username')
             log_list = mysql_log.database_loglist(connection, cursor, userName)
-            return render_template('log.html', log_list=log_list, message=message)
+            return render_template('log.html', log_list=log_list, message=message, permission_list=session)
         # 无权限
         else:
             return redirect(url_for('nopermission'))
@@ -742,7 +742,7 @@ def customerlist():
         if session.get('查询客户'):
             userName = session.get('username')
             customer_list = mysql_customer.database_customerlist(connection, cursor, userName)
-            return render_template('customer-list.html', customer_list=customer_list)
+            return render_template('customer-list.html', customer_list=customer_list, permission_list=session)
         # 无权限
         else:
             return redirect(url_for('nopermission'))
@@ -777,7 +777,7 @@ def customeradd():
             return redirect(url_for('nopermission'))
 
 
-# 编辑客户
+# 编辑客户（已完成）
 @app.route('/customer-edit/<customerName>', methods=['GET', 'POST'])
 def customeredit(customerName):
     # 如果没有登录，就返回登录页
@@ -798,7 +798,7 @@ def customeredit(customerName):
                 bankname = request.form.get('bankname')
                 bankaccount = request.form.get('bankaccount')
                 message = mysql_customer.database_editcustomer(connection, cursor, customerName, address, phone, fax,
-                                                               code, bankname,bankaccount, userName)
+                                                               code, bankname, bankaccount, userName)
             customer = mysql_customer.database_customerinfo(connection, cursor, customerName, userName)
             return render_template('customer-edit.html', customerName=customerName, message=message, customer=customer)
         # 无权限
@@ -806,7 +806,7 @@ def customeredit(customerName):
             return redirect(url_for('nopermission'))
 
 
-# 删除客户
+# 删除客户（已完成）
 @app.route('/customer-delete/<customerName>', methods=['GET', 'POST'])
 def customerdelete(customerName):
     # 如果没有登录，就返回登录页
@@ -826,7 +826,7 @@ def customerdelete(customerName):
             return redirect(url_for('nopermission'))
 
 
-# 查询合同
+# 查询合同（已完成）
 @app.route('/contract-list', methods=['GET', 'POST'])
 def contractlist():
     # 如果没有登录，就返回登录页
@@ -873,7 +873,7 @@ def contractadd():
             return redirect(url_for('nopermission'))
 
 
-# 编辑合同
+# 编辑合同（已完成）
 @app.route('/contract-edit/<contractName>', methods=['GET', 'POST'])
 def contractedit(contractName):
     # 如果没有登录，就返回登录页
@@ -896,7 +896,7 @@ def contractedit(contractName):
             return redirect(url_for('nopermission'))
 
 
-# 删除合同
+# 删除合同（已完成）
 @app.route('/contract-delete/<customerName>', methods=['GET', 'POST'])
 def contractdelete(customerName):
     # 如果没有登录，就返回登录页
@@ -934,6 +934,7 @@ def contractinfosearch():
         else:
             return redirect(url_for('nopermission'))
 
+
 # 合同流程查询
 @app.route('/search-process', methods=['GET', 'POST'])
 def contractprocesssearch():
@@ -951,6 +952,7 @@ def contractprocesssearch():
         # 无权限
         else:
             return redirect(url_for('nopermission'))
+
 
 # 启动服务器
 if __name__ == '__main__':

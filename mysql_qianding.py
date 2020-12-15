@@ -46,4 +46,4 @@ def database_qianding(connection, cursor, name, userName, qianding):
     # 提交数据
     connection.commit()
     lock.release()
-    return True
+    return 1
