@@ -48,7 +48,7 @@
                             <span class='x-red'>*</span>用户名
                         </label>
                         <div class="layui-input-block">
-                            <input type="text" name="name" autocomplete="off" placeholder="控制在80个汉字，160个字符以内"
+                            <input type="text" name="name" autocomplete="off" required="" lay-verify="required"
                                    class="layui-input" value="{{ username }}" readonly>
                         </div>
                     </div>
@@ -59,7 +59,7 @@
                         </label>
                         <div class="layui-input-block">
                             <input type="password" name="password" value="" autocomplete="off" placeholder=""
-                                   class="layui-input">
+                                   class="layui-input" required="" lay-verify="required">
                         </div>
                     </div>
                     <div class="layui-form-item">
@@ -68,7 +68,7 @@
                         </label>
                         <div class="layui-input-block">
                             <input type="password" name="newpassword" value="" autocomplete="off" placeholder="新密码为空则不修改"
-                                   class="layui-input">
+                                   class="layui-input" required="" lay-verify="required">
                         </div>
                     </div>
 
@@ -97,17 +97,6 @@
         lement = layui.element();//面包导航
         layer = layui.layer;//弹出层
         form = layui.form()
-
-
-
-        //图片上传接口
-        /*layui.upload({
-          url: './upload.json' //上传接口
-          ,success: function(res){ //上传成功后的回调
-              console.log(res);
-            $('#LAY_demo_upload').attr('src',res.url);
-          }
-        });*/
 
 
         //监听提交
