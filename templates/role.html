@@ -204,10 +204,24 @@
               //发异步删除数据
               $(obj).parents("tr").remove();
               window.location.href = "http://127.0.0.1:5000/role-delete/"+id;
-              layer.msg('已删除!',{icon:1,time:1000});
           });
       }
 
     </script>
-
+<script type="text/javascript">
+    layui.use('layer', function(){
+              var layer = layui.layer;
+              var message = {{message}};
+                switch (message){
+                case 0:
+                    layer.msg('删除失败！', {icon: 0,time:1000});
+                    break;
+                case 1:
+                    layer.msg('删除成功!',{icon:1,time:1000});
+                    break;
+                case -1:
+                    break;
+                }
+            });
+    </script>
 </html>
