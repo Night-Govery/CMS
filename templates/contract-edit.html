@@ -70,7 +70,8 @@
                             <span class='x-red'>&ensp;*</span>合同内容
                         </label>
                         <div class="layui-input-block">
-                            <textarea class="layui-textarea" name="info">{{ contract['content'] }}</textarea>
+                            <textarea class="layui-textarea" name="info"
+                            required="" lay-verify="required">{{ contract['content'] }}</textarea>
                         </div>
                     </div>
 

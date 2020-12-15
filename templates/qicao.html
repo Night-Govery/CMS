@@ -29,7 +29,7 @@
         <i class="layui-icon layui-icon-refresh" style="line-height:30px"></i></a>
 </div>
 <div class="layui-card">
-    <form class="layui-form layui-form-pane" method="post" id="add">
+    <form class="layui-form layui-form-pane" method="post" >
         <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
             <ul class="layui-tab-title">
                 <li class="layui-this">起草合同</li>
@@ -44,7 +44,7 @@
                         </label>
                         <div class="layui-input-block">
                             <input type="text" name="name" autocomplete="off" placeholder="name"
-                                   class="layui-input">
+                                   class="layui-input" required="" lay-verify="required">
                         </div>
                     </div>
                     <div class="layui-form-item">
@@ -52,7 +52,7 @@
                             <span class='x-red'>*</span>客户
                         </label>
                         <div class="layui-input-block">
-                            <select id="client" name="client" >
+                            <select id="client" name="client" required="" lay-verify="required">
                                 <option></option>
                                 {% for customer in customer_list %}
                                     <option>{{ customer['customerName'] }}</option>
@@ -66,7 +66,7 @@
                         </label>
                         <div class="layui-input-block">
                             <input type="date" name="start" autocomplete="off"
-                                   class="layui-input">
+                                   class="layui-input" required="" lay-verify="required">
                         </div>
                     </div>
                     <div class="layui-form-item">
@@ -75,7 +75,7 @@
                         </label>
                         <div class="layui-input-block">
                             <input type="date" name="end" autocomplete="off"
-                                   class="layui-input">
+                                   class="layui-input" required="" lay-verify="required">
                         </div>
                     </div>
                     <div class="layui-form-item layui-form-text">
@@ -83,7 +83,8 @@
                             <span class='x-red'>&ensp;*</span>合同内容
                         </label>
                         <div class="layui-input-block">
-                            <textarea placeholder="请输入内容" class="layui-textarea" name="info"></textarea>
+                            <textarea placeholder="请输入内容" class="layui-textarea" name="info"
+                                      required="" lay-verify="required"></textarea>
                         </div>
                     </div>
 
@@ -130,36 +131,39 @@
     });
 </script>
 <script>
-    layui.use(['element','layer','form','upload'], function(){
-        var  $ = layui.jquery;//jquery
-        var layer = layui.layer;//弹出层
-        var form = layui.form;
-        //监听提交
-        form.on('submit(add)', function(data){
-            var name=$("input[name='name']").val();
-            var client=$("input[name='client']").val();
-            var start=$("input[name='start']").val();
-            var end=$("input[name='end']").val();
-            var info=$("textarea[name='info']").val();
-            if(name==""){
-                layer.msg('合同名称不能为空',{icon:5,time:2000});return false;
+        layui.use(['form','layer'], function(){
+            $ = layui.jquery;
+          var form = layui.form
+          ,layer = layui.layer;
+
+          //自定义验证规则
+          form.verify({
+            name: function(value){
+              if(value.length < 5){
+                return '昵称至少得5个字符啊';
+              }
             }
-            else if(client==""){
-                layer.msg('客户名称不能为空',{icon:5,time:2000});return false;
+            ,pass: [/(.+){6,12}$/, '密码必须6到12位']
+            ,repass: function(value){
+                if($('#L_pass').val()!=$('#L_repass').val()){
+                    return '两次密码不一致';
+                }
             }
-            else if(info==""){
-                layer.msg("内容不能为空！",{icon:5,time:2000});return false;
+          });
+
+        form.on('checkbox(father)', function(data){
+
+            if(data.elem.checked){
+                $(data.elem).parent().siblings('td').find('input').prop("checked", true);
+                form.render();
+            }else{
+               $(data.elem).parent().siblings('td').find('input').prop("checked", false);
+                form.render();
             }
-            else if(start==""){
-                layer.msg("日期不能为空！",{icon:5,time:2000});return false;
-            }
-            else if(end==""){
-                layer.msg("日期不能为空！",{icon:5,time:2000});return false;
-            }
-            else
-                event.preventDefault();
         });
-    })
-</script>
+
+
+        });
+    </script>
 </body>
 </html>

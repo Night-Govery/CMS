@@ -34,7 +34,7 @@
                         </label>
                         <div class="layui-input-block">
                             <input type="text" name="name" autocomplete="off" value="{{ customerName }}"
-                                   class="layui-input">
+                                   class="layui-input" required="" lay-verify="required">
                         </div>
                     </div>
                     <div class="layui-form-item">
@@ -43,7 +43,7 @@
                         </label>
                         <div class="layui-input-block">
                             <input type="text" name="phone" autocomplete="off" value="{{ customer['customerTel'] }}"
-                                   class="layui-input">
+                                   class="layui-input" required="" lay-verify="required">
                         </div>
                     </div>
                     <div class="layui-form-item">
@@ -52,7 +52,7 @@
                         </label>
                         <div class="layui-input-block">
                             <input type="text" name="address" autocomplete="off" value="{{ customer['customerAddress'] }}"
-                                   class="layui-input">
+                                   class="layui-input" required="" lay-verify="required">
                         </div>
                     </div>
                     <div class="layui-form-item">
@@ -61,7 +61,7 @@
                         </label>
                         <div class="layui-input-block">
                             <input type="text" name="fax" autocomplete="off" value="{{ customer['customerFax'] }}"
-                                   class="layui-input">
+                                   class="layui-input" required="" lay-verify="required">
                         </div>
                     </div>
                     <div class="layui-form-item">
@@ -70,7 +70,7 @@
                         </label>
                         <div class="layui-input-block">
                             <input type="text" name="code" autocomplete="off" value="{{ customer['customerCode'] }}"
-                                   class="layui-input">
+                                   class="layui-input" required="" lay-verify="required">
                         </div>
                     </div>
                     <div class="layui-form-item">
@@ -79,7 +79,7 @@
                         </label>
                         <div class="layui-input-block">
                             <input type="text" name="bankname" autocomplete="off" value="{{ customer['customerBank'] }}"
-                                   class="layui-input">
+                                   class="layui-input" required="" lay-verify="required">
                         </div>
                     </div>
                     <div class="layui-form-item">
@@ -88,7 +88,7 @@
                         </label>
                         <div class="layui-input-block">
                             <input type="text" name="bankaccount" autocomplete="off" value="{{ customer['customerAccount'] }}"
-                                   class="layui-input">
+                                   class="layui-input" required="" lay-verify="required">
                         </div>
                     </div>
                         <button class="layui-btn" type="submit" lay-filter="add" >

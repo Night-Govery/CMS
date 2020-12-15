@@ -120,7 +120,8 @@
                         描述
                     </label>
                     <div class="layui-input-block">
-                        <textarea placeholder="请输入内容" id="desc" name="desc" class="layui-textarea"></textarea>
+                        <textarea placeholder="请输入内容" id="desc" name="desc" class="layui-textarea"
+                        required="" lay-verify="required"></textarea>
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -137,7 +138,7 @@
         
           //自定义验证规则
           form.verify({
-            nikename: function(value){
+            name: function(value){
               if(value.length < 5){
                 return '昵称至少得5个字符啊';
               }

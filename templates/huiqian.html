@@ -29,7 +29,7 @@
                             </label>
                             <div class="layui-input-block">
                                 <input type="text" name="name" autocomplete="off" value="{{ contractName }}"
-                                class="layui-input" lay-verify="required">
+                                class="layui-input" lay-verify="required" readonly="">
                             </div>
                         </div>
 
@@ -38,7 +38,8 @@
                                 <span class='x-red'>&ensp;*</span>会签意见
                             </label>
                             <div class="layui-input-block">
-                                <textarea placeholder="请输入内容" class="layui-textarea" name="info"></textarea>
+                                <textarea placeholder="请输入内容" class="layui-textarea" name="info"
+                                required="" lay-verify="required"></textarea>
                             </div>
                         </div>
                         <div class="layui-form-item">

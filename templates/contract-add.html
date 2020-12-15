@@ -45,7 +45,7 @@
                         </label>
                         <div class="layui-input-block">
                             <input type="text" name="name" autocomplete="off" placeholder="name"
-                                   class="layui-input">
+                                   class="layui-input" required="" lay-verify="required">
                         </div>
                     </div>
                     <div class="layui-form-item">
@@ -53,7 +53,7 @@
                             <span class='x-red'>*</span>客户
                         </label>
                         <div class="layui-input-block">
-                            <select id="client" name="client" >
+                            <select id="client" name="client" required="" lay-verify="required">
                                 <option></option>
                                 {% for customer in customer_list %}
                                     <option>{{ customer['customerName'] }}</option>
@@ -67,7 +67,7 @@
                         </label>
                         <div class="layui-input-block">
                             <input type="date" name="start" autocomplete="off"
-                                   class="layui-input">
+                                   class="layui-input" required="" lay-verify="required">
                         </div>
                     </div>
                     <div class="layui-form-item">
@@ -76,7 +76,7 @@
                         </label>
                         <div class="layui-input-block">
                             <input type="date" name="end" autocomplete="off"
-                                   class="layui-input">
+                                   class="layui-input" required="" lay-verify="required">
                         </div>
                     </div>
                     <div class="layui-form-item layui-form-text">
@@ -84,7 +84,8 @@
                             <span class='x-red'>&ensp;*</span>合同内容
                         </label>
                         <div class="layui-input-block">
-                            <textarea placeholder="请输入内容" class="layui-textarea" name="info"></textarea>
+                            <textarea placeholder="请输入内容" class="layui-textarea" name="info"
+                                      required="" lay-verify="required"></textarea>
                         </div>
                     </div>
 
