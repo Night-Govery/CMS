@@ -38,6 +38,8 @@ def database_addcustomer(connection, cursor, customerName, customerAddress, cust
 
 def database_deletecustomer(connection, cursor, customerName, userName):
     lock.acquire()
+    #删除未完成合同
+    sql = "DELETE FROM customer WHERE id=(SELECT id FROM customer WHERE name='" + customerName + "')"
     # 删除
     sql = "DELETE FROM customer WHERE id=(SELECT id FROM customer WHERE name='" + customerName + "')"
     cursor.execute(sql)
