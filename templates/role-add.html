@@ -23,7 +23,7 @@
                         <span class="x-red">*</span>角色名
                     </label>
                     <div class="layui-input-inline">
-                        <input type="text" id="name" name="name" required="" lay-verify="required"
+                        <input type="text" id="name" name="roleName" required="" lay-verify="required"
                         autocomplete="off" class="layui-input">
                     </div>
                 </div>
@@ -120,8 +120,7 @@
                         描述
                     </label>
                     <div class="layui-input-block">
-                        <textarea placeholder="请输入内容" id="desc" name="desc" class="layui-textarea"
-                        required="" lay-verify="required"></textarea>
+                        <textarea placeholder="请输入内容" id="desc" name="description" class="layui-textarea"></textarea>
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -138,7 +137,7 @@
         
           //自定义验证规则
           form.verify({
-            name: function(value){
+            nikename: function(value){
               if(value.length < 5){
                 return '昵称至少得5个字符啊';
               }

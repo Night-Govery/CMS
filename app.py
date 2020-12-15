@@ -570,7 +570,6 @@ def roleadd():
             if request.method == 'POST':
                 roleName = request.form.get('roleName')
                 function_list = request.form.getlist('addrole')
-                print(function_list)
                 description = request.form.get('description')
                 message = mysql_role.database_addrole(connection, cursor, roleName, function_list, description, userName)
                 if message:
