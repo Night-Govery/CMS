@@ -38,7 +38,23 @@
                                  {% for contract in contract_list %}
                                       <tr>
                                         <td>{{ contract['contractName'] }}</td>
-                                        <td>{{ contract['contractState'] }}</td>
+                                        <td>
+                                            {% if contract['contractState'] == 1 %}
+                                                起草完成
+                                            {% endif %}
+                                            {% if contract['contractState'] == 2 %}
+                                                会签完成
+                                            {% endif %}
+                                            {% if contract['contractState'] == 3 %}
+                                                定稿完成
+                                            {% endif %}
+                                            {% if contract['contractState'] == 4 %}
+                                                审批完成
+                                            {% endif %}
+                                            {% if contract['contractState'] == 5 %}
+                                                签订完成
+                                            {% endif %}
+                                        </td>
                                       </tr>
                                 {% endfor %}
                                 </tbody>
