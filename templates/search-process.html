@@ -47,19 +47,13 @@
                                 <thead >
                                   <tr>
                                     <th>合同名称</th>
-                                    <th>客户</th>
-                                    <th>开始时间</th>
-                                    <th>结束时间</th>
-                                    <th>合同内容</th>
+                                    <th>合同状态</th>
                                 </thead>
                                 <tbody >
-                                 {% for customer in customer_list %}
+                                 {% for contract in contract_list %}
                                       <tr>
-                                        <td>{{ customer['customer_name'] }}</td>
-                                        <td>{{ customer['customer_name'] }}</td>
-                                        <td>{{ customer['roleName'] }}</td>
-                                          <td>{{ customer['roleName'] }}</td>
-                                          <td>{{ customer['roleName'] }}</td>
+                                        <td>{{ contract['contractName'] }}</td>
+                                        <td>{{ contract['contractState'] }}</td>
                                       </tr>
                                 {% endfor %}
                                 </tbody>

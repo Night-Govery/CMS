@@ -48,13 +48,13 @@
                                     <th>合同内容</th>
                                 </thead>
                                 <tbody >
-                                 {% for customer in customer_list %}
+                                 {% for contract in contract_list %}
                                       <tr>
-                                        <td>{{ customer['customer_name'] }}</td>
-                                        <td>{{ customer['customer_name'] }}</td>
-                                        <td>{{ customer['roleName'] }}</td>
-                                          <td>{{ customer['roleName'] }}</td>
-                                          <td>{{ customer['roleName'] }}</td>
+                                        <td>{{ contract['contractName'] }}</td>
+                                        <td>{{ contract['customerName'] }}</td>
+                                        <td>{{ contract['beginTime'] }}</td>
+                                          <td>{{ contract['endTime'] }}</td>
+                                          <td>{{ contract['content'] }}</td>
                                       </tr>
                                 {% endfor %}
                                 </tbody>

@@ -486,12 +486,12 @@ def fenpeihuiqian(contractName):
                 huiqian_list = request.form.getlist('huiqian')
                 message = mysql_fenpei.database_fenpeihuiqian(connection, cursor, contractName, huiqian_list, userName)
                 if message:
-                    information = '分配会签#成功#' + huiqian_list
+                    information = '分配会签#成功'
                 else:
-                    information = '分配会签#失败#' + huiqian_list
+                    information = '分配会签#失败'
                 mysql_log.database_addlog(connection, cursor, userName, information)
             return render_template('fenpeihuiqian.html', user_list=user_list, message=message,
-                                   constractName=contractName)
+                                   contractName=contractName)
         # 无权限
         else:
             return redirect(url_for('nopermission'))
@@ -513,9 +513,9 @@ def fenpeishenpi(contractName):
             if request.method == 'POST':
                 shenpi_list = request.form.getlist('shenpi')
                 if message:
-                    information = '分配审批#成功#' + shenpi_list
+                    information = '分配审批#成功'
                 else:
-                    information = '分配审批#失败#' + shenpi_list
+                    information = '分配审批#失败'
                 mysql_log.database_addlog(connection, cursor, userName, information)
                 message = mysql_fenpei.database_fenpeishenpi(connection, cursor, contractName, shenpi_list, userName)
             return render_template('fenpeishenpi.html', user_list=user_list, message=message,
@@ -543,9 +543,9 @@ def fenpeiqianding(contractName):
                 message = mysql_fenpei.database_fenpeiqianding(connection, cursor, contractName, qianding_list,
                                                                userName)
                 if message:
-                    information = '分配签订#成功#' + qianding_list
+                    information = '分配签订#成功'
                 else:
-                    information = '分配签订#失败#' + qianding_list
+                    information = '分配签订#失败'
                 mysql_log.database_addlog(connection, cursor, userName, information)
             return render_template('fenpeiqianding.html', user_list=user_list, message=message,
                                    contractName=contractName)
@@ -565,6 +565,18 @@ def roleadd():
         # 校验权限
         # 有权限
         if session.get('新增角色'):
+            message = -1
+            userName = session.get('username')
+            if request.method == 'POST':
+                roleName = request.form.get('roleName')
+                function_list = request.form.getlist('function_list')
+                description = request.form.get('description')
+                message = mysql_role.database_addrole(connection, cursor, roleName, function_list, description, userName)
+                if message:
+                    information = '新增角色#成功#' + roleName
+                else:
+                    information = '新增角色#失败#' + roleName
+                mysql_log.database_addlog(connection, cursor, userName, information)
             return render_template('role-add.html')
         # 无权限
         else:
@@ -582,7 +594,18 @@ def roleedit(roleName):
         # 校验权限
         # 有权限
         if session.get('编辑角色'):
-
+            message = -1
+            userName = session.get('username')
+            if request.method == 'POST':
+                roleName = request.form.get('roleName')
+                function_list = request.form.getlist('function_list')
+                description = request.form.get('description')
+                message = mysql_role.database_editrole(connection, cursor, roleName, function_list, description, userName)
+                if message:
+                    information = '编辑角色#成功#' + roleName
+                else:
+                    information = '编辑角色#失败#' + roleName
+                mysql_log.database_addlog(connection, cursor, userName, information)
             return render_template('role-edit.html', roleName=roleName)
         # 无权限
         else:
@@ -676,9 +699,9 @@ def memberedit(change_member):
                 urole = request.form.getlist('status')
                 message = mysql_member.database_editmember(connection, cursor, uname, urole, userName)
                 if message:
-                    information = '编辑用户#成功#' + change_member + '#' + uname + '#' + urole
+                    information = '编辑用户#成功#' + change_member
                 else:
-                    information = '编辑用户#失败#' + change_member + '#' + uname + '#' + urole
+                    information = '编辑用户#失败#' + change_member
                 mysql_log.database_addlog(connection, cursor, userName, information)
             role_list = mysql_role.database_rolelist(connection, cursor, userName)
             return render_template('member-edit.html', role_list=role_list, change_member=change_member,
@@ -758,7 +781,7 @@ def memberdelete(delete_member):
             return redirect(url_for('nopermission'))
 
 
-# 查询日志
+# 查询日志（已完成）
 @app.route('/log', methods=['GET', 'POST'])
 def log():
     # 如果没有登录，就返回登录页
@@ -778,7 +801,7 @@ def log():
             return redirect(url_for('nopermission'))
 
 
-# 删除日志
+# 删除日志（已完成）
 @app.route('/log/<log_id>', methods=['GET', 'POST'])
 def logdelete(log_id):
     # 如果没有登录，就返回登录页
@@ -1015,7 +1038,7 @@ def contractdelete(contractName):
             return redirect(url_for('nopermission'))
 
 
-# 合同信息查询
+# 合同信息查询（已完成）
 @app.route('/search-contract', methods=['GET', 'POST'])
 def contractinfosearch():
     # 如果没有登录，就返回登录页
@@ -1034,7 +1057,7 @@ def contractinfosearch():
             return redirect(url_for('nopermission'))
 
 
-# 合同流程查询
+# 合同流程查询（已完成）
 @app.route('/search-process', methods=['GET', 'POST'])
 def contractprocesssearch():
     # 如果没有登录，就返回登录页
