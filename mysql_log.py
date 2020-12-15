@@ -27,11 +27,11 @@ def database_deletelog(connection, cursor, userName, log_id):
     return 1
 
 
-def database_addlog(connection, cursor, userName, use_id, content):
+def database_addlog(connection, cursor, userName, content):
     lock.acquire()
     timenum = datetime.datetime.strftime(datetime.datetime.now(), '%Y-%m-%d %H:%M:%S')
     # 插入日志
-    sql = "INSERT INTO log SET use_id='" + use_id + "',time='" + timenum + "',content='" + content + "'"
+    sql = "INSERT INTO log SET use_id=(SELECT id FROM user WHERE name='" + userName + "'),time='" + timenum + "',content='" + content + "'"
     cursor.execute(sql)
     # 提交数据
     connection.commit()
