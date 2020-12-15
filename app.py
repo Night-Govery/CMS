@@ -577,7 +577,7 @@ def roleadd():
                 else:
                     information = '新增角色#失败#' + roleName
                 mysql_log.database_addlog(connection, cursor, userName, information)
-            return render_template('role-add.html')
+            return render_template('role-add.html', message=message)
         # 无权限
         else:
             return redirect(url_for('nopermission'))
@@ -606,7 +606,7 @@ def roleedit(roleName):
                 else:
                     information = '编辑角色#失败#' + roleName
                 mysql_log.database_addlog(connection, cursor, userName, information)
-            return render_template('role-edit.html', roleName=roleName)
+            return render_template('role-edit.html', roleName=roleName, message=message)
         # 无权限
         else:
             return redirect(url_for('nopermission'))
@@ -648,7 +648,7 @@ def roledelete(roleName):
             else:
                 information = '删除角色#失败#' + roleName
             mysql_log.database_addlog(connection, cursor, userName, information)
-            return render_template('role.html', role_list=role_list, message=message)
+            return render_template('role.html', role_list=role_list, message=message, permission_list=session)
         # 无权限
         else:
             return redirect(url_for('nopermission'))
@@ -747,11 +747,9 @@ def memberlist():
     # 如果登录，就前往页面
     else:
         if session.get('查询用户'):
-            message = -1
             userName = session.get('username')
             member_list = mysql_member.database_memberlist(connection, cursor, userName)
-            return render_template('member-list.html', member_list=member_list, message=message,
-                                   permission_list=session)
+            return render_template('member-list.html', member_list=member_list, permission_list=session)
         else:
             return redirect(url_for('nopermission'))
 
@@ -775,7 +773,7 @@ def memberdelete(delete_member):
             else:
                 information = '删除用户#失败#' + delete_member
             mysql_log.database_addlog(connection, cursor, userName, information)
-            return render_template('member-list.html', member_list=member_list, message=message)
+            return render_template('member-list.html', member_list=member_list, message=message, permission_list=session)
         # 无权限
         else:
             return redirect(url_for('nopermission'))
@@ -792,10 +790,9 @@ def log():
         # 校验权限
         # 有权限
         if session.get('查询日志'):
-            message = -1
             userName = session.get('username')
             log_list = mysql_log.database_loglist(connection, cursor, userName)
-            return render_template('log.html', log_list=log_list, message=message, permission_list=session)
+            return render_template('log.html', log_list=log_list, permission_list=session)
         # 无权限
         else:
             return redirect(url_for('nopermission'))
@@ -815,7 +812,7 @@ def logdelete(log_id):
             userName = session.get('username')
             message = mysql_log.database_deletelog(connection, cursor, userName, log_id)
             log_list = mysql_log.database_loglist(connection, cursor, userName)
-            return render_template('log.html', log_list=log_list, message=message)
+            return render_template('log.html', log_list=log_list, message=message, permission_list=session)
         # 无权限
         else:
             return redirect(url_for('nopermission'))
@@ -927,7 +924,7 @@ def customerdelete(customerName):
             else:
                 information = '删除客户#失败#' + customerName
             mysql_log.database_addlog(connection, cursor, userName, information)
-            return render_template('customer-list.html', customer_list=customer_list, message=message)
+            return render_template('customer-list.html', customer_list=customer_list, message=message, permission_list=session)
         # 无权限
         else:
             return redirect(url_for('nopermission'))
@@ -1032,7 +1029,7 @@ def contractdelete(contractName):
                 information = '删除合同#失败#' + contractName
             mysql_log.database_addlog(connection, cursor, userName, information)
             contract_list = mysql_contract.database_contractlist(connection, cursor, userName)
-            return render_template('contract-list.html', contract_list=contract_list, message=message)
+            return render_template('contract-list.html', contract_list=contract_list, message=message, permission_list=session)
         # 无权限
         else:
             return redirect(url_for('nopermission'))
