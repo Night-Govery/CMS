@@ -3,7 +3,7 @@ from cffi.cparser import lock
 
 def database_contractinfosearch(connection, cursor, userName):
     lock.acquire()
-    sql = "SELECT contract.name AS contractName, customer.name AS customerName, contract.beginTime AS beginTime, contract.endTime AS endTime, contract.content AS content, FROM contract,customer WHERE  contract.cus_id = customer.id"
+    sql = "SELECT contract.name AS contractName, customer.name AS customerName, contract.beginTime AS beginTime, contract.endTime AS endTime, contract.content AS content FROM contract,customer WHERE contract.cus_id=customer.id"
     cursor.execute(sql)
     result = cursor.fetchall()
     # 提交数据
