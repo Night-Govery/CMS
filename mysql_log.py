@@ -1,3 +1,5 @@
+import datetime
+
 from cffi.cparser import lock
 
 
@@ -23,3 +25,15 @@ def database_deletelog(connection, cursor, userName, log_id):
     connection.commit()
     lock.release()
     return 1
+
+
+def database_addlog(connection, cursor, userName, use_id, content):
+    lock.acquire()
+    timenum = datetime.datetime.strftime(datetime.datetime.now(), '%Y-%m-%d %H:%M:%S')
+    # 插入日志
+    sql = "INSERT INTO log SET use_id='" + use_id + "',time='" + timenum + "',content='" + content + "'"
+    cursor.execute(sql)
+    # 提交数据
+    connection.commit()
+    lock.release()
+    return None
