@@ -53,11 +53,11 @@ def database_contractlist(connection, cursor, userName):
 def database_deletecontract(connection, cursor, name, userName):
     lock.acquire()
     #删除合同状态
-    sql = "DELETE FROM contract_state WHERE id=(SELECT id FROM contract WHERE name='" + name + "')"
+    sql = "DELETE FROM contract_state WHERE con_id=(SELECT id FROM contract WHERE name='" + name + "')"
     cursor.execute(sql)
     connection.commit()
     #删除合同流程
-    sql = "DELETE FROM contract_process WHERE id=(SELECT id FROM contract WHERE name='" + name + "')"
+    sql = "DELETE FROM contract_process WHERE con_id=(SELECT id FROM contract WHERE name='" + name + "')"
     cursor.execute(sql)
     connection.commit()
     # 删除合同

@@ -16,6 +16,7 @@ import mysql_member
 import mysql_qianding
 import mysql_qicao
 import mysql_role
+import mysql_search
 import mysql_shenpi
 import mysql_user
 
@@ -908,12 +909,48 @@ def contractdelete(customerName):
         if session.get('管理合同信息'):
             userName = session.get('username')
             message = mysql_contract.database_deletecontract(connection, cursor, customerName, userName)
-            customer_list = mysql_customer.database_customerlist(connection, cursor, userName)
-            return render_template('contract-list.html', customer_list=customer_list, message=message)
+            contract_list = mysql_contract.database_contractlist(connection, cursor, userName)
+            return render_template('contract-list.html', contract_list=contract_list, message=message)
         # 无权限
         else:
             return redirect(url_for('nopermission'))
 
+
+# 合同信息查询
+@app.route('/search-contract', methods=['GET', 'POST'])
+def contractinfosearch():
+    # 如果没有登录，就返回登录页
+    if "username" not in session:
+        return redirect(url_for('index'))
+    # 如果登录，就前往页面
+    else:
+        # 校验权限
+        # 有权限
+        if session.get('查询合同信息'):
+            userName = session.get('username')
+            contract_list = mysql_search.database_contractinfosearch(connection, cursor, userName)
+            return render_template('search-contract.html', contract_list=contract_list)
+        # 无权限
+        else:
+            return redirect(url_for('nopermission'))
+
+# 合同流程查询
+@app.route('/search-process', methods=['GET', 'POST'])
+def contractprocesssearch():
+    # 如果没有登录，就返回登录页
+    if "username" not in session:
+        return redirect(url_for('index'))
+    # 如果登录，就前往页面
+    else:
+        # 校验权限
+        # 有权限
+        if session.get('查询合同流程'):
+            userName = session.get('username')
+            contract_list = mysql_search.database_contractprocesssearch(connection, cursor, userName)
+            return render_template('search-process.html', contract_list=contract_list)
+        # 无权限
+        else:
+            return redirect(url_for('nopermission'))
 
 # 启动服务器
 if __name__ == '__main__':
