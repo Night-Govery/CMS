@@ -142,7 +142,7 @@
                                         <a title="编辑"  onclick="xadmin.open('编辑角色','http://127.0.0.1:5000/role-edit/{{ role['roleName'] }}',1000,735)" href="javascript:;">
                                           <i class="layui-icon">&#xe642;</i>
                                         </a>
-                                        <a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
+                                        <a title="删除" onclick="member_del(this,'{{ role['roleName'] }}')" href="javascript:;">
                                           <i class="layui-icon">&#xe640;</i>
                                         </a>
                                       </td>
@@ -213,27 +213,11 @@
           layer.confirm('确认要删除吗？',function(index){
               //发异步删除数据
               $(obj).parents("tr").remove();
+              window.location.href = "http://127.0.0.1:5000/role-delete/"+id;
               layer.msg('已删除!',{icon:1,time:1000});
           });
       }
 
-
-
-      function delAll (argument) {
-
-        var data = tableCheck.getData();
-  
-        layer.confirm('确认要删除吗？'+data,function(index){
-            //捉到所有被选中的，发异步进行删除
-            layer.msg('删除成功', {icon: 1});
-            $(".layui-form-checked").not('.header').parents('tr').remove();
-        });
-      }
     </script>
-    <script>var _hmt = _hmt || []; (function() {
-        var hm = document.createElement("script");
-        hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";
-        var s = document.getElementsByTagName("script")[0];
-        s.parentNode.insertBefore(hm, s);
-      })();</script>
+
 </html>

@@ -65,7 +65,7 @@
                                           <a title="编辑"  onclick="xadmin.open('编辑','http://127.0.0.1:5000/contract-edit/{{ contract['contractName'] }}',900,600)" href="javascript:;">
                                             <i class="layui-icon">&#xe642;</i>
                                           </a>
-                                          <a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
+                                          <a title="删除" onclick="member_del(this,'{{ contract['contractName'] }}')" href="javascript:;">
                                             <i class="layui-icon">&#xe640;</i>
                                           </a>
                                         </td>
@@ -139,6 +139,7 @@
           layer.confirm('确认要删除吗？',function(index){
               //发异步删除数据
               $(obj).parents("tr").remove();
+              window.location.href = "http://127.0.0.1:5000/customer-delete/"+id;
               layer.msg('已删除!',{icon:1,time:1000});
           });
       }

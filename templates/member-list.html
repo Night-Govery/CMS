@@ -150,12 +150,9 @@
       /*用户-删除*/
         function member_del(obj,id){
                   layer.confirm('确认要删除吗？',function(index){
-                      var stateObject = {};
-                      var title = "用户管理";
-                      //发异步删除数据
-                      history.pushState(stateObject,title,"http://127.0.0.1:5000/member-delete/"+id);
-                      $(obj).parents("tr").remove();
-                      layer.msg('已删除!',{icon:1,time:1000});
+                       $(obj).parents("tr").remove();
+                       window.location.href = "http://127.0.0.1:5000/member-delete/"+id;
+                       layer.msg('已删除!',{icon:1,time:1000});
                   });
               }
 
@@ -174,8 +171,9 @@
   
         layer.confirm('确认要删除吗？'+ids.toString(),function(index){
             //捉到所有被选中的，发异步进行删除
-            layer.msg('删除成功', {icon: 1});
-            $(".layui-form-checked").not('.header').parents('tr').remove();
+             $(obj).parents("tr").remove();
+              window.location.href = "http://127.0.0.1:5000/member-delete/"+id;
+              layer.msg('已删除!',{icon:1,time:1000});
         });
       }
     </script>
