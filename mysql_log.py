@@ -7,7 +7,7 @@ from cffi.cparser import lock
 def database_loglist(connection, cursor, userName):
     lock.acquire()
     # 执行数据查询
-    sql = "select log.id AS log_id,user.name AS userName,log.content AS logContent, log.time AS logTime from user,log"
+    sql = "select DISTINCT log.id AS log_id,user.name AS userName,log.content AS logContent, log.time AS logTime from user,log where user.id=use_id"
     cursor.execute(sql)
     # 获取数据库单条数据
     result = cursor.fetchall()
