@@ -37,7 +37,7 @@ def database_deletecontract(connection, cursor, name, userName):
     cursor.execute(sql)
     connection.commit()
     # 删除合同
-    sql = "DELETE FROM contract WHERE id=(SELECT id FROM contract WHERE name='" + name + "')"
+    sql = "DELETE FROM contract WHERE name='" + name + "'"
     cursor.execute(sql)
     # 提交数据
     connection.commit()

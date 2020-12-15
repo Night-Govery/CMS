@@ -39,7 +39,16 @@ def database_addcustomer(connection, cursor, customerName, customerAddress, cust
 def database_deletecustomer(connection, cursor, customerName, userName):
     lock.acquire()
     #删除未完成合同
-    sql = "DELETE FROM contract WHERE cus_id=(SELECT id FROM customer WHERE name='" + customerName + "')"
+    #删除合同状态
+    sql = "DELETE FROM contract_state WHERE id=(SELECT id FROM contract WHERE use_id=(SELECT id FROM customer WHERE name ='" + customerName + "')"
+    cursor.execute(sql)
+    connection.commit()
+    #删除合同流程
+    sql = "DELETE FROM contract_process WHERE id=(SELECT id FROM contract WHERE use_id=(SELECT id FROM customer WHERE name ='" + customerName + "')"
+    cursor.execute(sql)
+    connection.commit()
+    # 删除合同
+    sql = "DELETE FROM contract WHERE use_id=(SELECT id FROM customer WHERE name='" + customerName + "')"
     cursor.execute(sql)
     # 提交数据
     connection.commit()
