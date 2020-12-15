@@ -51,17 +51,129 @@ def database_rolelist(connection, cursor, userName):
     return rolelist
 
 
+# # 更改角色数据
+# def database_editrole(connection, cursor, roleName, functionName, description, userName):
+#     lock.acquire()
+#     # 删除角色数据
+#     sql = "DELETE FROM role_functions WHERE role_functions.rol_id=(SELECT id FROM role WHERE name ='" + roleName + "')"
+#     cursor.execute(sql)
+#     # 插入角色数据
+#     sql = "INSERT INTO role_functions (rol_id,fun_id)VALUE((SELECT id FROM role WHERE name ='" + roleName + "'),(SELECT id FROM function WHERE name ='" + functionName + "'))"
+#     cursor.execute(sql)
+#     # 提交数据
+#     connection.commit()
+#     lock.release()
+#     return 1
 # 更改角色数据
-def database_editrole(connection, cursor, roleName, functionName, userName):
+def database_editrole(connection, cursor, roleName, functionName, description, userName):
     lock.acquire()
     # 删除角色数据
     sql = "DELETE FROM role_functions WHERE role_functions.rol_id=(SELECT id FROM role WHERE name ='" + roleName + "')"
     cursor.execute(sql)
-    # 插入角色数据
-    sql = "INSERT INTO role_functions (rol_id,fun_id)VALUE((SELECT id FROM role WHERE name ='" + roleName + "'),(SELECT id FROM function WHERE name ='" + functionName + "'))"
-    cursor.execute(sql)
-    # 提交数据
     connection.commit()
+    sql = "UPDATE role SET description='" + description + "' WHERE name='" + roleName + ""
+    connection.commit()
+    # 插入角色数据
+    if functionName['起草合同']:
+        sql = "INSERT INTO role_functions(rol_id,fun_id)VALUES((SELECT id FROM role WHERE name ='" + roleName + "'),(SELECT id FROM functions WHERE name ='新增用户'); "
+        cursor.execute(sql)
+        connection.commit()
+    if functionName['定稿合同']:
+        sql = "INSERT INTO role_functions(rol_id,fun_id)VALUES((SELECT id FROM role WHERE name ='" + roleName + "'),(SELECT id FROM functions WHERE name ='新增用户'); "
+        cursor.execute(sql)
+        connection.commit()
+    if functionName['会签合同']:
+        sql = "INSERT INTO role_functions(rol_id,fun_id)VALUES((SELECT id FROM role WHERE name ='" + roleName + "'),(SELECT id FROM functions WHERE name ='新增用户'); "
+        cursor.execute(sql)
+        connection.commit()
+    if functionName['审批合同']:
+        sql = "INSERT INTO role_functions(rol_id,fun_id)VALUES((SELECT id FROM role WHERE name ='" + roleName + "'),(SELECT id FROM functions WHERE name ='新增用户'); "
+        cursor.execute(sql)
+        connection.commit()
+    if functionName['签订合同']:
+        sql = "INSERT INTO role_functions(rol_id,fun_id)VALUES((SELECT id FROM role WHERE name ='" + roleName + "'),(SELECT id FROM functions WHERE name ='新增用户'); "
+        cursor.execute(sql)
+        connection.commit()
+    if functionName['查询合同信息']:
+        sql = "INSERT INTO role_functions(rol_id,fun_id)VALUES((SELECT id FROM role WHERE name ='" + roleName + "'),(SELECT id FROM functions WHERE name ='新增用户'); "
+        cursor.execute(sql)
+        connection.commit()
+    if functionName['查询合同流程']:
+        sql = "INSERT INTO role_functions(rol_id,fun_id)VALUES((SELECT id FROM role WHERE name ='" + roleName + "'),(SELECT id FROM functions WHERE name ='新增用户'); "
+        cursor.execute(sql)
+        connection.commit()
+    if functionName['分配会签']:
+        sql = "INSERT INTO role_functions(rol_id,fun_id)VALUES((SELECT id FROM role WHERE name ='" + roleName + "'),(SELECT id FROM functions WHERE name ='新增用户'); "
+        cursor.execute(sql)
+        connection.commit()
+    if functionName['分配审批']:
+        sql = "INSERT INTO role_functions(rol_id,fun_id)VALUES((SELECT id FROM role WHERE name ='" + roleName + "'),(SELECT id FROM functions WHERE name ='新增用户'); "
+        cursor.execute(sql)
+        connection.commit()
+    if functionName['分配签订']:
+        sql = "INSERT INTO role_functions(rol_id,fun_id)VALUES((SELECT id FROM role WHERE name ='" + roleName + "'),(SELECT id FROM functions WHERE name ='新增用户'); "
+        cursor.execute(sql)
+        connection.commit()
+    if functionName['新增用户']:
+        sql = "INSERT INTO role_functions(rol_id,fun_id)VALUES((SELECT id FROM role WHERE name ='" + roleName + "'),(SELECT id FROM functions WHERE name ='新增用户'); "
+        cursor.execute(sql)
+        connection.commit()
+    if functionName['编辑用户']:
+        sql = "INSERT INTO role_functions(rol_id,fun_id)VALUES((SELECT id FROM role WHERE name ='" + roleName + "'),(SELECT id FROM functions WHERE name ='新增用户'); "
+        cursor.execute(sql)
+        connection.commit()
+    if functionName['查询用户']:
+        sql = "INSERT INTO role_functions(rol_id,fun_id)VALUES((SELECT id FROM role WHERE name ='" + roleName + "'),(SELECT id FROM functions WHERE name ='新增用户'); "
+        cursor.execute(sql)
+        connection.commit()
+    if functionName['删除用户']:
+        sql = "INSERT INTO role_functions(rol_id,fun_id)VALUES((SELECT id FROM role WHERE name ='" + roleName + "'),(SELECT id FROM functions WHERE name ='新增用户'); "
+        cursor.execute(sql)
+        connection.commit()
+    if functionName['新增角色']:
+        sql = "INSERT INTO role_functions(rol_id,fun_id)VALUES((SELECT id FROM role WHERE name ='" + roleName + "'),(SELECT id FROM functions WHERE name ='新增用户'); "
+        cursor.execute(sql)
+        connection.commit()
+    if functionName['编辑角色']:
+        sql = "INSERT INTO role_functions(rol_id,fun_id)VALUES((SELECT id FROM role WHERE name ='" + roleName + "'),(SELECT id FROM functions WHERE name ='新增用户'); "
+        cursor.execute(sql)
+        connection.commit()
+    if functionName['查询角色']:
+        sql = "INSERT INTO role_functions(rol_id,fun_id)VALUES((SELECT id FROM role WHERE name ='" + roleName + "'),(SELECT id FROM functions WHERE name ='新增用户'); "
+        cursor.execute(sql)
+        connection.commit()
+    if functionName['删除角色']:
+        sql = "INSERT INTO role_functions(rol_id,fun_id)VALUES((SELECT id FROM role WHERE name ='" + roleName + "'),(SELECT id FROM functions WHERE name ='新增用户'); "
+        cursor.execute(sql)
+        connection.commit()
+    if functionName['新增客户']:
+        sql = "INSERT INTO role_functions(rol_id,fun_id)VALUES((SELECT id FROM role WHERE name ='" + roleName + "'),(SELECT id FROM functions WHERE name ='新增用户'); "
+        cursor.execute(sql)
+        connection.commit()
+    if functionName['编辑客户']:
+        sql = "INSERT INTO role_functions(rol_id,fun_id)VALUES((SELECT id FROM role WHERE name ='" + roleName + "'),(SELECT id FROM functions WHERE name ='新增用户'); "
+        cursor.execute(sql)
+        connection.commit()
+    if functionName['查询客户']:
+        sql = "INSERT INTO role_functions(rol_id,fun_id)VALUES((SELECT id FROM role WHERE name ='" + roleName + "'),(SELECT id FROM functions WHERE name ='新增用户'); "
+        cursor.execute(sql)
+        connection.commit()
+    if functionName['删除客户']:
+        sql = "INSERT INTO role_functions(rol_id,fun_id)VALUES((SELECT id FROM role WHERE name ='" + roleName + "'),(SELECT id FROM functions WHERE name ='新增用户'); "
+        cursor.execute(sql)
+        connection.commit()
+    if functionName['管理合同信息']:
+        sql = "INSERT INTO role_functions(rol_id,fun_id)VALUES((SELECT id FROM role WHERE name ='" + roleName + "'),(SELECT id FROM functions WHERE name ='新增用户'); "
+        cursor.execute(sql)
+        connection.commit()
+    if functionName['查询日志']:
+        sql = "INSERT INTO role_functions(rol_id,fun_id)VALUES((SELECT id FROM role WHERE name ='" + roleName + "'),(SELECT id FROM functions WHERE name ='新增用户'); "
+        cursor.execute(sql)
+        connection.commit()
+    if functionName['删除日志']:
+        sql = "INSERT INTO role_functions(rol_id,fun_id)VALUES((SELECT id FROM role WHERE name ='" + roleName + "'),(SELECT id FROM functions WHERE name ='新增用户'); "
+        cursor.execute(sql)
+        connection.commit()
     lock.release()
     return 1
 
