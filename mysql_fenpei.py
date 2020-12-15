@@ -33,7 +33,7 @@ def database_fenpeihuiqian(connection, cursor, contractName, fenpeiuser_list, us
         # 重复分配
         if result:
             lock.release()
-            return 2
+            return 0
         else:
             sql = "INSERT INTO contract_process(con_id,use_id,type,state)VALUE((SELECT id FROM contract WHERE name='" + contractName + "'),(SELECT id FROM user WHERE name='" + fenpeiuser + "'),'1','0') "
             cursor.execute(sql)
@@ -64,7 +64,7 @@ def database_fenpeishenpi(connection, cursor, contractName, fenpeiuser_list, use
         # 重复分配
         if result:
             lock.release()
-            return 2
+            return 0
         else:
             sql = "INSERT INTO contract_process(con_id,use_id,type,state)VALUE((SELECT id FROM contract WHERE name='" + contractName + "'),(SELECT id FROM user WHERE name='" + fenpeiuser + "'),'2','0') "
             cursor.execute(sql)
@@ -95,7 +95,7 @@ def database_fenpeiqianding(connection, cursor, contractName, fenpeiuser_list, u
         # 重复分配
         if result:
             lock.release()
-            return 2
+            return 0
         else:
             sql = "INSERT INTO contract_process(con_id,use_id,type,state)VALUE((SELECT id FROM contract WHERE name='" + contractName + "'),(SELECT id FROM user WHERE name='" + fenpeiuser + "'),'3','0') "
             cursor.execute(sql)
