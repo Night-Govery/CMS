@@ -66,7 +66,7 @@
                             <span class='x-red'>*</span>开始时间
                         </label>
                         <div class="layui-input-block">
-                            <input type="date" name="start" autocomplete="off"
+                            <input type="text" name="start" autocomplete="off" id="start_time"
                                    class="layui-input" required="" lay-verify="required">
                         </div>
                     </div>
@@ -75,7 +75,7 @@
                             <span class='x-red'>*</span>结束时间
                         </label>
                         <div class="layui-input-block">
-                            <input type="date" name="end" autocomplete="off"
+                            <input type="text" name="end" autocomplete="off" id="end_time"
                                    class="layui-input" required="" lay-verify="required">
                         </div>
                     </div>
@@ -148,6 +148,22 @@
             }
         });
     })
+</script>
+<script>
+    layui.use([ 'laydate'], function(){
+   var $ = layui.$;
+   var laydate = layui.laydate;
+   var starttime =document.getElementById("start_time").value;
+   var start = laydate.render({
+      elem: '#start_time',
+      type: 'date',
+   });
+   var end = laydate.render({
+      elem: '#end_time',
+      type: 'date',
+      min: starttime,
+   })
+})
 </script>
 </body>
 </html>
