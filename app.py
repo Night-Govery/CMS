@@ -247,16 +247,17 @@ def huiqian(contractName):
         # 有权限
         if session.get('会签合同'):
             message = -1
+            userName = session.get('username')
             if request.method == 'POST':
                 info = request.form.get('info')
-                userName = session.get('username')
                 message = mysql_huiqian.database_huiqian(connection, cursor, contractName, userName, info)
                 if message:
                     information = '会签合同#成功#' + info
                 else:
                     information = '会签合同#失败#' + info
                 mysql_log.database_addlog(connection, cursor, userName, information)
-            return render_template('huiqian.html', contractName=contractName, message=message)
+            contract = mysql_contract.database_getcontractinfo(connection, cursor, contractName, userName)
+            return render_template('huiqian.html', contractName=contractName, message=message, contract=contract)
         # 无权限
         else:
             return redirect(url_for('nopermission'))
@@ -372,17 +373,19 @@ def shenpi(contractName):
         # 有权限
         if session.get('审批合同'):
             message = -1
+            userName = session.get('username')
             if request.method == 'POST':
                 state = request.form.get('state')
                 info = request.form.get('info')
-                userName = session.get('username')
+
                 message = mysql_shenpi.database_shenpi(connection, cursor, contractName, userName, state, info)
                 if message:
                     information = '审批合同#成功#' + state + '#' + info
                 else:
                     information = '审批合同#失败#' + state + '#' + info
                 mysql_log.database_addlog(connection, cursor, userName, information)
-            return render_template('shenpi.html', contractName=contractName, message=message)
+            contract = mysql_contract.database_getcontractinfo(connection, cursor, contractName, userName)
+            return render_template('shenpi.html', contractName=contractName, message=message, contract=contract)
         # 无权限
         else:
             return redirect(url_for('nopermission'))

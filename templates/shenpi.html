@@ -20,11 +20,12 @@
     <body>
 
         <div class="layui-card">
+            <form class="layui-form layui-form-pane" method="post">
             <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
 
               <div class="layui-tab-content" >
                 <div class="layui-tab-item layui-show">
-                    <form class="layui-form layui-form-pane" method="post">
+
                         <div class="layui-form-item">
                         <label class="layui-form-label">
                             <span class='x-red'></span>合同名称
@@ -70,6 +71,19 @@
                             required="" lay-verify="required" readonly="">{{ contract['content'] }}</textarea>
                         </div>
                     </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">审批状态</label>
+                            <div class="layui-input-block">
+                                <input type="radio" name="state" value="1" title="通过" >
+                                <div class="layui-unselect layui-form-radio layui-form-radioed"><i class="layui-anim layui-icon layui-anim-scaleSpring"></i>
+                                    <div>通过</div>
+                                </div>
+                                <input type="radio" name="state" value="2" title="拒绝" >
+                                <div class="layui-unselect layui-form-radio"><i class="layui-anim layui-icon"></i>
+                                    <div>拒绝</div>
+                                </div>
+                            </div>
+                        </div>
 
                         <div class="layui-form-item layui-form-text">
                             <label class="layui-form-label">
@@ -81,16 +95,17 @@
                             </div>
                         </div>
                         <div class="layui-form-item">
-                            <button class="layui-btn" type="submit" lay-submit="" lay-filter="*">
+                            <button class="layui-btn" type="submit" lay-filter="*">
                                 提交
                             </button>
                         </div>
-                    </form>
+
                     <div style="height:100px;"></div>
                 </div>
 
               </div>
             </div>
+            </form>
         </div>
         <script type="text/javascript">
             layui.use('layer', function(){

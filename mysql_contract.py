@@ -4,7 +4,7 @@ from cffi.cparser import lock
 # 合同信息
 def database_getcontractinfo(connection, cursor, name, userName):
     lock.acquire()
-    contractinfo = {'contractid': -1, 'contractName': 'NULL', 'customerName': 'NULL', 'beginTime': 'NULL', 'endTime': 'NULL', 'content': 'NULL', 'huiqinyijian': '暂无', 'shenpiyijian': '暂无'}
+    contractinfo = {'contractid': -1, 'contractName': 'NULL', 'customerName': 'NULL', 'beginTime': 'NULL', 'endTime': 'NULL', 'content': 'NULL', 'huiqianyijian': '暂无', 'shenpiyijian': '暂无'}
     sql = "SELECT contract.id AS contractid, customer.name AS customerName, contract.name AS contractName, contract.beginTime AS beginTime, contract.endTime AS endTime, contract.content AS content, contract.use_id AS contractuseid  FROM contract,customer WHERE contract.name='" + name + "' AND contract.cus_id = customer.id"
     cursor.execute(sql)
     result = cursor.fetchone()
@@ -16,23 +16,32 @@ def database_getcontractinfo(connection, cursor, name, userName):
     contractinfo['endTime'] = result['endTime']
     contractinfo['content'] = result['content']
     # 查看所有会签意见
-    sql = "SELECT DISTINCT contract_process.content AS huiqiancontent from contract,contract_process" \
+    sql = "SELECT contract_process.content AS huiqiancontent from contract,contract_process" \
           " where contract_process.con_id=contract.id and contract_process.type=1 and contract.id=(SELECT id FROM contract WHERE name ='" + name + "')"
     cursor.execute(sql)
     # 获取数据库多条数据
     result1 = cursor.fetchall()
-    print(result1)
     count = 0
     if result1:
         for i in result1:
-            if count == 0:
-                contractinfo['huiqianyijian'] = i['huiqiancontent']
-                count += 1
+            print(i['huiqiancontent'])
+            print(contractinfo['huiqianyijian'])
+            if i['huiqiancontent']:
+                if count == 0:
+                    contractinfo['huiqianyijian'] = i['huiqiancontent']
+                    count += 1
+                else:
+                    contractinfo['huiqianyijian'] = contractinfo['huiqianyijian'] + '\n' + i['huiqiancontent']
             else:
-                contractinfo['huiqianyijian'] = contractinfo['huiqianyijian'] + '\n' + i['huiqiancontent']
+                if count == 0:
+                    contractinfo['huiqianyijian'] = '暂无'
+                    count += 1
+                else:
+                    contractinfo['huiqianyijian'] = contractinfo['huiqianyijian'] + '\n' + '暂无'
+
     connection.commit()
     # 查看所有审批意见
-    sql = "SELECT DISTINCT contract_process.content AS shenpicontent from contract,contract_process" \
+    sql = "SELECT contract_process.content AS shenpicontent from contract,contract_process" \
           " where contract_process.con_id=contract.id and contract_process.type=2 and contract.id=(SELECT id FROM contract WHERE name ='" + name + "')"
     cursor.execute(sql)
     # 获取数据库多条数据
@@ -40,11 +49,18 @@ def database_getcontractinfo(connection, cursor, name, userName):
     count = 0
     if result1:
         for i in result1:
-            if count == 0:
-                contractinfo['shenpiyijian'] = i['shenpicontent']
-                count += 1
+            if i['shenpicontent']:
+                if count == 0:
+                    contractinfo['shenpiyijian'] = i['shenpicontent']
+                    count += 1
+                else:
+                    contractinfo['shenpiyijian'] = contractinfo['shenpiyijian'] + '\n' + i['shenpicontent']
             else:
-                contractinfo['shenpiyijian'] = contractinfo['shenpiyijian'] + '\n' + i['shenpicontent']
+                if count == 0:
+                    contractinfo['shenpiyijian'] = '暂无'
+                    count += 1
+                else:
+                    contractinfo['shenpiyijian'] = contractinfo['shenpiyijian'] + '\n' + '暂无'
 
     connection.commit()
     lock.release()
