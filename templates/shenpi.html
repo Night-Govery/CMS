@@ -26,27 +26,50 @@
                 <div class="layui-tab-item layui-show">
                     <form class="layui-form layui-form-pane" method="post">
                         <div class="layui-form-item">
-                            <label class="layui-form-label">
-                                <span class='x-red'></span>合同名称
-                            </label>
-                            <div class="layui-input-block">
-                                <input type="text" name="name" autocomplete="off" value="{{ contractName }}"
-                                       class="layui-input" readonly="true">
-                            </div>
+                        <label class="layui-form-label">
+                            <span class='x-red'></span>合同名称
+                        </label>
+                        <div class="layui-input-block">
+                            <input type="text" name="name" autocomplete="off" value="{{ contractName }}"
+                                   class="layui-input" readonly="true">
                         </div>
-                        <div class="layui-form-item">
-                            <label class="layui-form-label">审批状态</label>
-                            <div class="layui-input-block">
-                                <input type="radio" name="state" value="1" title="通过" >
-                                <div class="layui-unselect layui-form-radio layui-form-radioed"><i class="layui-anim layui-icon layui-anim-scaleSpring"></i>
-                                    <div>通过</div>
-                                </div>
-                                <input type="radio" name="state" value="2" title="拒绝" >
-                                <div class="layui-unselect layui-form-radio"><i class="layui-anim layui-icon"></i>
-                                    <div>拒绝</div>
-                                </div>
-                            </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">
+                            <span class='x-red'></span>客户
+                        </label>
+                        <div class="layui-input-block">
+                            <input type="text" name="client" autocomplete="off" value="{{ contract['customerName'] }}"
+                                   class="layui-input" readonly="true">
                         </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">
+                            <span class='x-red'></span>开始时间
+                        </label>
+                        <div class="layui-input-block">
+                            <input type="date" name="start" autocomplete="off"
+                                   class="layui-input" readonly="true" value="{{ contract['beginTime'] }}">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">
+                            <span class='x-red'></span>结束时间
+                        </label>
+                        <div class="layui-input-block">
+                            <input type="date" name="end" autocomplete="off"
+                                   class="layui-input" readonly="true" value="{{ contract['endTime'] }}">
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-form-text">
+                        <label class="layui-form-label">
+                            <span class='x-red'>&ensp;*</span>合同内容
+                        </label>
+                        <div class="layui-input-block">
+                            <textarea class="layui-textarea" name="info"
+                            required="" lay-verify="required" readonly="">{{ contract['content'] }}</textarea>
+                        </div>
+                    </div>
 
                         <div class="layui-form-item layui-form-text">
                             <label class="layui-form-label">
