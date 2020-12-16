@@ -21,14 +21,15 @@ def database_getcontractinfo(connection, cursor, name, userName):
     cursor.execute(sql)
     # 获取数据库多条数据
     result1 = cursor.fetchall()
+    print(result1)
     count = 0
     if result1:
         for i in result1:
             if count == 0:
-                contractinfo['huiqinyijian'] = i['huiqiancontent']
+                contractinfo['huiqianyijian'] = i['huiqiancontent']
                 count += 1
             else:
-                contractinfo['huiqinyijian'] = contractinfo['huiqinyijian'] + '\n' + i['huiqiancontent']
+                contractinfo['huiqianyijian'] = contractinfo['huiqianyijian'] + '\n' + i['huiqiancontent']
     connection.commit()
     # 查看所有审批意见
     sql = "SELECT DISTINCT contract_process.content AS shenpicontent from contract,contract_process" \
@@ -44,9 +45,10 @@ def database_getcontractinfo(connection, cursor, name, userName):
                 count += 1
             else:
                 contractinfo['shenpiyijian'] = contractinfo['shenpiyijian'] + '\n' + i['shenpicontent']
+
     connection.commit()
     lock.release()
-    return result
+    return contractinfo
 
 # # 合同信息改
 # def database_getcontractlist(connection, cursor, name, userName):
