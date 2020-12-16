@@ -48,6 +48,33 @@
                                    class="layui-input" readonly="true">
                         </div>
                     </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">
+                            <span class='x-red'></span>开始时间
+                        </label>
+                        <div class="layui-input-block">
+                            <input type="date" name="start" autocomplete="off"
+                                   class="layui-input" readonly="true" value="{{ contract['beginTime'] }}">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">
+                            <span class='x-red'></span>结束时间
+                        </label>
+                        <div class="layui-input-block">
+                            <input type="date" name="end" autocomplete="off"
+                                   class="layui-input" readonly="true" value="{{ contract['endTime'] }}">
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-form-text">
+                        <label class="layui-form-label">
+                            <span class='x-red'>&ensp;*</span>合同内容
+                        </label>
+                        <div class="layui-input-block">
+                            <textarea class="layui-textarea" name="info"
+                            required="" lay-verify="required" readonly="">{{ contract['content'] }}</textarea>
+                        </div>
+                    </div>
                     <div class="layui-form-item layui-form-text">
                         <label class="layui-form-label">
                             <span class='x-red'>&ensp;*</span>签订信息
