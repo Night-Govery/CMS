@@ -7,7 +7,20 @@ def database_getcontractinfo(connection, cursor, name, userName):
     sql = "SELECT contract.id AS contractid, customer.name AS customername, contract.name AS contractName, contract.beginTime AS beginTime, contract.endTime AS endTime, contract.content AS content, contract.use_id AS contractuseid  FROM contract,customer WHERE contract.name='" + name + "' AND contract.cus_id = customer.id"
     cursor.execute(sql)
     result = cursor.fetchone()
-    # 提交数据
+    connection.commit()
+    # 查看所有会签意见
+    sql = "SELECT DISTINCT contract_process.content AS huiqiancontent from contract,contract_process" \
+          " where contract_process.con_id=contract.id and contract_process.type=1 and contract.id=(SELECT id FROM contract WHERE name ='" + name + "')"
+    cursor.execute(sql)
+    # 获取数据库多条数据
+    result1 = cursor.fetchall()
+    connection.commit()
+    # 查看所有审批意见
+    sql = "SELECT DISTINCT contract_process.content AS shenpicontent from contract,contract_process" \
+          " where contract_process.con_id=contract.id and contract_process.type=2 and contract.id=(SELECT id FROM contract WHERE name ='" + name + "')"
+    cursor.execute(sql)
+    # 获取数据库多条数据
+    result2 = cursor.fetchall()
     connection.commit()
     lock.release()
     return result
