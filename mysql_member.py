@@ -44,11 +44,15 @@ def database_editmember(connection, cursor, uname, urole, userName):
     sql = "DELETE FROM rights WHERE rights.use_id=(SELECT id FROM user WHERE name ='" + uname + "')"
     cursor.execute(sql)
     # 插入用户数据
-    for role in urole:
-        sql = "INSERT INTO rights (use_id,rol_id)VALUE((SELECT id FROM user WHERE name ='" + uname + "'),(SELECT id FROM role WHERE name ='" + role + "'))"
-        cursor.execute(sql)
+    if urole:
+        for role in urole:
+            sql = "INSERT INTO rights (use_id,rol_id)VALUE((SELECT id FROM user WHERE name ='" + uname + "'),(SELECT id FROM role WHERE name ='" + role + "'))"
+    else:
+        sql = "INSERT INTO rights (use_id,rol_id)VALUES((SELECT id FROM user WHERE name='" + uname + "'),'6');"
     # 提交数据
+    cursor.execute(sql)
     connection.commit()
+
     lock.release()
     return 1
 
